@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('survey_answers', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->datetime('answered_at');
+            $table->datetime('answer_text_01');
+            $table->datetime('answer_text_02');
+            $table->datetime('answer_text_03');
+            $table->datetime('answer_text_04');
+            $table->datetime('answer_text_05');
+            $table->datetime('answer_text_06');
+            $table->datetime('answer_text_07');
+            $table->datetime('answer_text_08');
+            $table->datetime('answer_text_09');
+            $table->datetime('answer_text_10');
         });
     }
 
