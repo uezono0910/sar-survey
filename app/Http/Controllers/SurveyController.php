@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Survey;
+use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Support\Facades\Log;
@@ -13,9 +14,10 @@ class SurveyController extends Controller
 {
     public function index() {
         // Surveyデータをすべて取得
-        // $surveys = survey::all();
-        $surveys = Survey::paginate(10);
-        return view('survey.index', compact('surveys'));
+        $surveyanswers = surveyanswers::all();
+        // $surveys = Survey::paginate(10);
+        // return view('survey.index', compact('surveys'));
+        return view('survey.index', compact('surveyanswers'));
     }
 
     public function show (Survey $survey) {

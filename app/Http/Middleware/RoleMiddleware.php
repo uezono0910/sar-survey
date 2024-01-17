@@ -18,6 +18,6 @@ class RoleMiddleware
         if(auth()->user()->role == '1'){
             return $next($request);
         }
-        return redirect()->route('surveyanswer.create');
+        return redirect()->route('surveyanswer.index');
     }
 }
