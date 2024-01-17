@@ -46,6 +46,14 @@ class SurveyAnswerController extends Controller
         // $query = Survey::query();
         // $surveys = $query->get();
 
+        // チェックBOXをカンマ区切りで文字列に変換
+        $answerText09 = implode(",", $request->answer_text_09);
+
+        // 要素をrequestに追加
+        $request->merge(['answer_text_09' => $answerText09]);
+
+        // dd($answerText09);
+
         // 現在の日時を取得
         $now = Carbon::now();
         // dd($now);
