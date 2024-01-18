@@ -4,10 +4,11 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center" style="max-width: 50px;">
-                    {{-- <a href="{{ route('surveyanswer.index') }}"> --}}
-                        <x-application-logo class="block w-auto fill-current text-gray-800" />
-                    </a>
+                <div class="shrink-0 flex items-center relative" style="max-width: 50px;">
+                    @can('auth')
+                        <a class="absolute w-full h-full" href="{{ route('surveyanswer.index') }}"></a>
+                    @endcan
+                    <x-application-logo class="block w-auto fill-current text-gray-800" />
                 </div>
 
                 <!-- Navigation Links -->
