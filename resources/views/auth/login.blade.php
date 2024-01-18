@@ -33,22 +33,24 @@
         </div>
 
         <div class="flex flex-col items-center justify-end mt-4">
-            <x-primary-button class="ms-3">
+            <x-primary-button>
                 {{ __('Log in') }}
             </x-primary-button>
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-4" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
         </div>
-        <div class="flex justify-center mt-4">
-        @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
-                REGISTER
-            </a>
-        @endif
-        </div>
+        {{-- <div class="flex justify-center mt-4 pt-4 divide-solid border-t-1">
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}">
+                    <x-primary-button>
+                        {{ __('Sign up') }}
+                    </x-primary-button>
+                </a>
+            @endif
+        </div> --}}
     </form>
 </x-guest-layout>
 
