@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('answer_text_09');
             $table->text('answer_text_10');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

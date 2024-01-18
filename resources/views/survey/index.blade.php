@@ -1,39 +1,40 @@
 <x-app-layout>
   <x-slot name="header">
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight overflow-x-scroll">
         一覧表示
       </h2>
   </x-slot>
-  <div class="w-screen py-6">
-    <div>
-      <div class="border-solid py-6 px-6">回答日</div>
-      <div class="border-solid py-6 px-6">質問1</div>
-      <div class="border-solid py-6 px-6">質問2</div>
-      <div class="border-solid py-6 px-6">質問3</div>
-      <div class="border-solid py-6 px-6">質問4</div>
-      <div class="border-solid py-6 px-6">質問5</div>
-      <div class="border-solid py-6 px-6">質問6</div>
-      <div class="border-solid py-6 px-6">質問7</div>
-      <div class="border-solid py-6 px-6">質問8</div>
-      <div class="border-solid py-6 px-6">質問9</div>
-      <div class="border-solid py-6 px-6">質問10</div>
-    </div>
-    <div>
-      @foreach ($surveyanswers as $surveyanswer)
-      <div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answered_at }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_01 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_02 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_03 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_04 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_05 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_06 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_07 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_08 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_09 }}</div>
-        <div class="border-solid py-6 px-6">{{ $surveyanswers->answer_text_10 }}</div>
-      </div>
-      @endforeach
+  <div class="px-6 py-12">
+    <div class="overflow-x-scroll">
+      <table class="w-full">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="whitespace-nowrap">質問内容</th>
+            <th class="whitespace-nowrap">フォームタイプ</th>
+            <th class="whitespace-nowrap">選択肢</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          @foreach ($surveys as $survey)
+            <tr>
+              <td class="min-w-80">{{ $survey->content }}</td>
+              <td class="min-w-80">{{ $survey->type }}</td>
+              <td class="min-w-80">{{ $survey->choices }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
 </x-app-layout>
+<style>
+th, td {
+  border: solid .5px #d3d3d3;
+  padding: .5rem;
+  text-align: center;
+  max-width: 300px;
+}
+th, .answered_at {
+  white-space: nowrap;
+}
+</style>

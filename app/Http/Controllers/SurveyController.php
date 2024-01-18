@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Log;
 class SurveyController extends Controller
 {
     public function index() {
-        // Surveyデータをすべて取得
-        $surveyanswers = surveyanswers::all();
-        // $surveys = Survey::paginate(10);
-        // return view('survey.index', compact('surveys'));
-        return view('survey.index', compact('surveyanswers'));
+        // SurveyAnswerデータをすべて取得して降順にソート
+        $surveys = survey::all()->sortByDesc('updated_at');
+        // dd($surveys);
+        return view('survey.index', compact('surveys'));
     }
 
     public function show (Survey $survey) {
@@ -29,16 +28,22 @@ class SurveyController extends Controller
     }
 
     public function store(Request $request, Survey $survey) {
-        // Gate::authorize('test');
-        $validated = $request->validate([
-            'title' => 'required|max:20',
-            'body' => 'required|max:400',
-        ]);
+        // $validated = $request->validate([
+        //     'title' => 'required|max:20',
+        //     'body' => 'required|max:400',
+        // ]);
+        // $survey = Survey::create($validated);
 
-        $validated['user_id'] = auth()->id();
+        // dd($request);
 
-        $survey = Survey::create($validated);
-        return view('survey.show', compact('survey'))->with('message', '保存しました');
+        // Modelをインスタンス化
+        $surveyModel = new Survey();
+
+        // insert
+        $surveyModel->fill($request->all())->save();
+        // 一覧画面にリダイレクト
+        return view('survey.index');
+        // compact('survey'))->with('message', '保存しました');
     }
 
     public function edit(Survey $survey) {

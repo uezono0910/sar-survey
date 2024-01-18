@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey', function (Blueprint $table) {
+        Schema::create('old_survey', function (Blueprint $table) {
             $table->id();
             $table->text('survey_text_01');
             $table->text('survey_text_02');
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('survey_text_09');
             $table->text('survey_text_10');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survey');
+        Schema::dropIfExists('old_survey');
     }
 };

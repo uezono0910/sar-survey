@@ -1,40 +1,36 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          アンケートフォーム作成
+          アンケート登録
       </h2>
   </x-slot>
-  <div class="max-w-7xl mx-auto px-6">
-    {{-- @if (session('message'))
-      <div>
-        {{ session('message') }}
-      </div>
-    @endif --}}
-    <x-message :message="session('message')" />
-    <form method="survey" action="{{ route('survey.store') }}">
+  <div class="max-w-7xl mx-auto px-40 py-12">
+    <form method="POST" action="{{ route('survey.index') }}">
       @csrf
-      <div class="mt-8">
-        <div class="w-full flex flex-col">
-          <label for="title" class="font-somibold mt-4">名前（任意）</label>
-          <x-input-error :messages="$errors->get('title')" class="mt-2" />
-          <input type="text" name="title" class="w-auto py-2 border border-gray-300 rounded-md" id="title"
-          value="{{ old('title') }}">
-        </div>
+      <div class="w-full flex flex-col">
+        <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
+        <input type="text" name="content" />
       </div>
 
-
-      @foreach($surveys as $survey)
-        {{ $survey }} <br />
-
-        <!-- <div class="w-full flex flex-col">
-          <label for="body" class="font-somibold mt-4">本文</label>
-          <x-input-error :messages="$errors->get('body')" class="mt-2" />
-          <textarea name="body" class="w-auto py-2 border border-gray-300 rounded-md" id="body" cols="1" rows="5">{{ old('body') }}</textarea>
-        </div> -->
-      @endforeach
-
-      <x-primary-button class="mt-4">
-        送信する
-      </x-primary-button>
+      <div class="w-full flex flex-col py-3">
+        <label for="type" class="font-somibold mt-4 mb-2">フォームタイプ</label>
+        <select class="w-80" name="type">
+          <option value="1">テキストボックス</option>
+          <option value="2">テキストエリア</option>
+          <option value="3">セレクトボックス</option>
+          <option value="4">ラジオボタン</option>
+          <option value="5">チェックボックス</option>
+        </select>
+      </div>
+      <div class="w-full flex flex-col py-3">
+        <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
+        <input type="text" name="choices" cols="20" wrap="soft" class="border border-gray-500"/>
+      </div>
+      <div>
+        <x-primary-button class="mt-8">
+          登録する
+        </x-primary-button>
+      </div>
     </form>
+  </div>
 </x-app-layout>

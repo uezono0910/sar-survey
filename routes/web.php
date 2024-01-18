@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('survey', SurveyController::class);
+Route::middleware('auth')->group(function() {
+    Route::resource('survey', SurveyController::class);
+});
 // Route::resource('surveyanswer', SurveyAnswerController::class);
 
 // ログインユーザーのみアンケート一覧画面を表示

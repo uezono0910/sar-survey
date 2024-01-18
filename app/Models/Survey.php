@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Survey extends Model
 {
     use HasFactory;
-    protected $table = 'surveys';
+    protected $table = 'survey';
     protected $fillable = [
         'content',
-        'form_type',
+        'type',
         'choices',
-        // 'sort_order',
     ];
 }
