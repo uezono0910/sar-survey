@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -16,7 +17,6 @@ class SurveyAnswerController extends Controller
     public function index() {
         // SurveyAnswerデータをすべて取得して降順にソート
         $surveyanswers = surveyanswer::all()->sortByDesc('answered_at');
-        // $surveyanswers = SurveyAnswer::paginate(10);
         // dd($surveyanswers);
 
         Gate::authorize('auth');
@@ -29,7 +29,8 @@ class SurveyAnswerController extends Controller
     }
 
     public function create() {
-        return view('surveyanswer.create');
+        $surveys = survey::all();
+        return view('surveyanswer.create', compact('surveys'));
     }
 
     public function store(Request $request, SurveyAnswer $surveyanswer) {
@@ -72,7 +73,7 @@ class SurveyAnswerController extends Controller
         // insert
         $surveyAnswerModel->fill($request->all())->save();
 
-        // 一覧画面にリダイレクト
+        // 完了画面にリダイレクト
         return view('surveyanswer.complet');
         // , compact('survey'))->with('message', '保存しました');
     }
