@@ -6,7 +6,7 @@
   </x-slot>
   <div class="px-6 py-12">
     <div class="overflow-x-scroll">
-      <table>
+      <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
             <th class="whitespace-nowrap">回答日</th>
