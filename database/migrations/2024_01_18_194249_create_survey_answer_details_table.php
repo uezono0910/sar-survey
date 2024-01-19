@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('survey_answer_details', function (Blueprint $table) {
             $table->id();
+            $table->text('answer');
+            $table->text('survey_id');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
+use App\Models\SurveyAnswerDetail;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +31,9 @@ class SurveyAnswerController extends Controller
 
     public function create() {
         $surveys = survey::all();
+        dd($surveys);
+        $surveyIds = $surveys->id;
+        dd($surveyIds);
         return view('surveyanswer.create', compact('surveys'));
     }
 
@@ -48,30 +52,31 @@ class SurveyAnswerController extends Controller
         // $surveys = $query->get();
 
         // チェックBOXをカンマ区切りで文字列に変換
-        $answerText09 = implode(",", $request->answer_text_09);
+        // $answerText09 = implode(",", $request->answer_text_09);
 
         // 要素をrequestに追加
-        $request->merge(['answer_text_09' => $answerText09]);
+        // $request->merge(['answer_text_09' => $answerText09]);
 
         // dd($answerText09);
 
         // 現在の日時を取得
-        $now = Carbon::now();
+        // $now = Carbon::now();
         // dd($now);
 
         // 現在の日時を変換
-        $answeredAt = $now->format('Y-m-d H:i:s');
+        // $answeredAt = $now->format('Y-m-d H:i:s');
         // dd($answeredAt);
 
         // 要素をrequestに追加
-        $request->merge(['answered_at' => $answeredAt]);
+        // $request->merge(['answered_at' => $answeredAt]);
         // dd($request);
 
+
         // Modelをインスタンス化
-        $surveyAnswerModel = new SurveyAnswer();
+        $surveyAnswerDetailModel = new SurveyAnswerDetail();
 
         // insert
-        $surveyAnswerModel->fill($request->all())->save();
+        $surveyAnswerDetailModel->fill($request->all())->save();
 
         // 完了画面にリダイレクト
         return view('surveyanswer.complet');

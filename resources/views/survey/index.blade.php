@@ -34,7 +34,7 @@ th, td {
   text-align: center;
   max-width: 300px;
 }
-th, .answered_at {
+th {
   white-space: nowrap;
 }
 </style>
