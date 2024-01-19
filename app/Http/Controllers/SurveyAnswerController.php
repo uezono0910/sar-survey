@@ -29,8 +29,7 @@ class SurveyAnswerController extends Controller
     }
 
     public function create() {
-        $surveys = survey::all();
-        return view('surveyanswer.create', compact('surveys'));
+        return view('surveyanswer.create');
     }
 
     public function store(Request $request, SurveyAnswer $surveyanswer) {
