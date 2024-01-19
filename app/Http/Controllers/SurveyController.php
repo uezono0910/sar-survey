@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 class SurveyController extends Controller
 {
     public function index() {
-        // SurveyAnswerデータをすべて取得して降順にソート
+        // Surveyデータを取得して降順にソート
         $surveys = survey::all()->sortByDesc('updated_at');
         // dd($surveys);
         return view('survey.index', compact('surveys'));
@@ -41,8 +41,12 @@ class SurveyController extends Controller
 
         // insert
         $surveyModel->fill($request->all())->save();
+
+        // Surveyデータを取得
+        $surveys = survey::all();
+
         // 一覧画面にリダイレクト
-        return view('survey.index');
+        return view('survey.index', compact('surveys'));
         // compact('survey'))->with('message', '保存しました');
     }
 
