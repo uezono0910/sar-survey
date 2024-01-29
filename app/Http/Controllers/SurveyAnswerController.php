@@ -16,13 +16,15 @@ use Carbon\Carbon;
 class SurveyAnswerController extends Controller
 {
     public function index() {
-        // SurveyAnswerデータをすべて取得して降順にソート
-        $surveyanswers = surveyanswer::all()->sortByDesc('answered_at');
-        // dd($surveyanswers);
+        // Surveyデータをすべて取得
+        $surveys = survey::all();
+        // SurveyAnswerDetailデータをすべて取得して降順にソート
+        $surveyanswerdetails = surveyanswerdetail::all()->sortByDesc('answered_at');
+        // dd($surveyanswerdetails);
 
         Gate::authorize('auth');
         // アンケート一覧にデータを渡して画面表示
-        return view('surveyanswer.index', compact('surveyanswers'));
+        return view('surveyanswer.index', compact('surveys', 'surveyanswerdetails'));
     }
 
     public function show (SurveyAnswer $surveyanswer) {
@@ -31,52 +33,64 @@ class SurveyAnswerController extends Controller
 
     public function create() {
         $surveys = survey::all();
-        dd($surveys);
-        $surveyIds = $surveys->id;
-        dd($surveyIds);
+        // dd($surveys);
         return view('surveyanswer.create', compact('surveys'));
     }
 
     public function store(Request $request, SurveyAnswer $surveyanswer) {
-
-        // $validated = $request->validate([
-        //     'answer' => 'required|max:20',
-        //     'surveys_id' => 'required|max:400',
-        // ]);
-
-        // $request['title'];
-        // $request->title;
-
-        // surveyのidをすべて取得
-        // $query = Survey::query();
-        // $surveys = $query->get();
-
-        // チェックBOXをカンマ区切りで文字列に変換
-        // $answerText09 = implode(",", $request->answer_text_09);
-
-        // 要素をrequestに追加
-        // $request->merge(['answer_text_09' => $answerText09]);
-
-        // dd($answerText09);
-
-        // 現在の日時を取得
-        // $now = Carbon::now();
-        // dd($now);
-
-        // 現在の日時を変換
-        // $answeredAt = $now->format('Y-m-d H:i:s');
-        // dd($answeredAt);
-
-        // 要素をrequestに追加
-        // $request->merge(['answered_at' => $answeredAt]);
         // dd($request);
+        // Requestを取得
+        $surveyAnswerRequest = $request->all();
+        // dd($surveyAnswerRequest);
+        // Requestのひとつめは不要のため削除
+        unset($surveyAnswerRequest['_token']);
+        // キーを取得
+        $surveyIds = array_keys($surveyAnswerRequest);
+        // キーと値をDBに入れる
+        foreach($surveyAnswerRequest as $surveyId => $answer){
+            // Modelをインスタンス化
+            $surveyAnswerDetailModel = new SurveyAnswerDetail();
+            $surveyAnswerDetailModel->survey_id = $surveyId;
+            $surveyAnswerDetailModel->answer = $answer;
+            // dd($surveyAnswerDetailModel);
+            // insert
+            $surveyAnswerDetailModel->fill($request->all())->save();
+        }
 
 
-        // Modelをインスタンス化
-        $surveyAnswerDetailModel = new SurveyAnswerDetail();
+        // キーの存在チェック
+        // $surveys = survey::all();
+        // foreach ($surveys as $survey) {
+        //     dd($surveys);
+        //     $surveyId = $survey->id;
+        //     $answerKey = "answer_".$surveyId;
+        //     $surveyKey = "survey_".$surveyId;
+        //     if (isset($surveyAnswerRequest[$answerKey])) {
+        //         // dd($key);
+        //         if (isset($surveyAnswerRequest[$surveyKey])) {
+        //             $surveyAnswerDetailModel = new SurveyAnswerDetail();
+        //             // $surveyAnswerDetailModel->survey_id = $surveyId;
+        //             // $surveyAnswerDetailModel->answer = $answer;
+        //             // insert
+        //             // $surveyAnswerDetailModel->fill($request->all())->save();
+        //         }
+        //     } else {
+        //         $surveyId = $surveyId + 1;
+        //         $answerKey = "answer_".$surveyId;
+        //         dd($answerKey);
+        //         $surveyKey = "survey_".$surveyId;
+        //         $surveyAnswerDetailModel = new SurveyAnswerDetail();
+        //         $surveyAnswerDetailModel->survey_id = $surveyId;
+        //         $surveyAnswerDetailModel->answer = $answer;
+        //     }
 
-        // insert
-        $surveyAnswerDetailModel->fill($request->all())->save();
+
+        // }
+        // dd($surveyAnswerRequest);
+        // if (isset($surveyAnswerRequest['answe_1'])) {
+        //     echo $ary['answe_1'];
+        // }
+
 
         // 完了画面にリダイレクト
         return view('surveyanswer.complet');
