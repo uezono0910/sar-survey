@@ -15,13 +15,46 @@
       @csrf
 
       @foreach($surveys as $survey)
-        {{-- <div class="mt-8"> --}}
+        <div class="mt-8">
           <div class="w-full flex flex-col py-3">
-            <label for="survey_{{ $survey->id }}" class="font-somibold mt-4 mb-2">{{ $survey->content }}</label>
+            <label class="font-somibold mt-4 mb-2">{{ $survey->content }}</label>
             <x-input-error :messages="$errors->get('body')" class="mt-2" />
-            <input type="text" name="survey_{{ $survey->id }}" id="survey_{{ $survey->id }}"/>
+            @if($survey->type === "1")
+              <input type="text" name="{{ $survey->id }}" />
+              {{-- <input type="hidden" name="survey_{{ $survey->id }}" value="{{ $survey->id }}" /> --}}
+            @elseif($survey->type === "2")
+              <textarea class="min-h-32" name="{{ $survey->id }}"></textarea>
+              {{-- <input type="hidden" name="survey_{{ $survey->id }}" value="{{ $survey->id }}" /> --}}
+            @elseif($survey->type === "3")
+              {{-- <input type="hidden" name="survey_{{ $survey->id }}" value="{{ $survey->id }}" /> --}}
+              <select class="w-1/2" name="{{ $survey->id }}">
+              @foreach (explode(",",$survey->choices) as $choice)
+                <option>{{ $choice }}</option>
+              @endforeach
+              </select>
+            @elseif($survey->type === "4")
+              {{-- <input type="hidden" name="survey_{{ $survey->id }}" value="{{ $survey->id }}" /> --}}
+              <div class="flex">
+              @foreach (explode(",",$survey->choices) as $choice)
+                <div class="mr-6">
+                  <input type="radio" name="{{ $survey->id }}" value="{{$choice}}" />
+                  <label>{{ $choice }}</label>
+                </div>
+              @endforeach
+              </div>
+            @elseif($survey->type === "5")
+              {{-- <input type="hidden" name="survey_{{ $survey->id }}" value="{{ $survey->id }}" /> --}}
+              <div class="flex">
+              @foreach (explode(",",$survey->choices) as $choice)
+                <div class="mr-6">
+                  <input type="checkbox" name="{{ $survey->id }}" value="{{$choice}}" />
+                  <label>{{ $choice }}</label>
+                </div>
+              @endforeach
+              </div>
+            @endif
           </div>
-        {{-- </div> --}}
+        </div>
       @endforeach
 
       {{-- <x-primary-button class="mt-4"> --}}
@@ -30,11 +63,3 @@
       </x-primary-button>
     </form>
 </x-app-layout>
-
-<script>
-function getId(ele){
-  // input要素のid属性の値を取得
-    var attr = ele.getAttribute("id");
-    console.log(attr);
-}
-</script>
