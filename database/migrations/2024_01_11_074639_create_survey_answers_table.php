@@ -12,18 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('survey_answers', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->datetime('answered_at');
-            $table->text('answer_text_01');
-            $table->text('answer_text_02');
-            $table->text('answer_text_03');
-            $table->text('answer_text_04');
-            $table->text('answer_text_05');
-            $table->text('answer_text_06');
-            $table->text('answer_text_07');
-            $table->text('answer_text_08');
-            $table->text('answer_text_09');
-            $table->text('answer_text_10');
+            $table->id();
             $table->timestamps();
             $table->softDeletes();
         });
