@@ -34,8 +34,6 @@ class SurveyController extends Controller
         // ]);
         // $survey = Survey::create($validated);
 
-        // dd($request);
-
         // Modelをインスタンス化
         $surveyModel = new Survey();
 
@@ -43,9 +41,8 @@ class SurveyController extends Controller
         $surveyModel->fill($request->all())->save();
 
         // 一覧画面にリダイレクト
-        return redirect('survey.index');
-        // return view('survey.index', compact('surveys'));
-        // compact('survey'))->with('message', '保存しました');
+        return redirect()->route('survey.index');
+        // ->with('message', '保存しました');
     }
 
     public function edit(Survey $survey) {
