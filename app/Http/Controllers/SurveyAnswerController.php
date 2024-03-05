@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyAnswerDetail;
@@ -18,13 +19,23 @@ class SurveyAnswerController extends Controller
     public function index() {
         // Surveyデータをすべて取得
         $surveys = survey::all();
-        // SurveyAnswerDetailデータをすべて取得して降順にソート
-        $surveyanswerdetails = surveyanswerdetail::all()->sortByDesc('answered_at');
-        // dd($surveyanswerdetails);
+        // dd($surveys);
+        $surveyanswers = surveyanswer::all();
+        // $surveyanswerdetails = surveyanswerdetail::all();
+        $surveyanswerdetails = surveyanswer::query()
+            ->join('survey_answer_details', 'survey_answers.id', '=', 'survey_answer_details.survey_answer_id')
+            ->get();
 
+        // return DB::table('survey_answers')
+        //     ->join('survey_answers' as 'survey_answer', function($join) {
+        //         $join->on('survey_answer_details.survey_answer_id', '=', 'survey_answers.id');
+        //     })
+        //     ->get();
+
+        // dd($surveyanswerdetails);
         Gate::authorize('auth');
         // アンケート一覧にデータを渡して画面表示
-        return view('surveyanswer.index', compact('surveys', 'surveyanswerdetails'));
+        return view('surveyanswer.index', compact('surveys', 'surveyanswers', 'surveyanswerdetails'));
     }
 
     public function show (SurveyAnswer $surveyanswer) {
@@ -38,10 +49,11 @@ class SurveyAnswerController extends Controller
     }
 
     public function store(Request $request, SurveyAnswer $surveyanswer) {
-        // dd($request);
+        $surveyAnswerModel = new SurveyAnswer();
+        $surveyAnswerModel->save();
+
         // Requestを取得
         $surveyAnswerRequest = $request->all();
-        // dd($surveyAnswerRequest);
         // Requestのひとつめは不要のため削除
         unset($surveyAnswerRequest['_token']);
         // キーを取得
@@ -52,49 +64,13 @@ class SurveyAnswerController extends Controller
             $surveyAnswerDetailModel = new SurveyAnswerDetail();
             $surveyAnswerDetailModel->survey_id = $surveyId;
             $surveyAnswerDetailModel->answer = $answer;
-            // dd($surveyAnswerDetailModel);
+            $surveyAnswerDetailModel->survey_answer_id = $surveyAnswerModel->id;
             // insert
             $surveyAnswerDetailModel->fill($request->all())->save();
         }
 
-
-        // キーの存在チェック
-        // $surveys = survey::all();
-        // foreach ($surveys as $survey) {
-        //     dd($surveys);
-        //     $surveyId = $survey->id;
-        //     $answerKey = "answer_".$surveyId;
-        //     $surveyKey = "survey_".$surveyId;
-        //     if (isset($surveyAnswerRequest[$answerKey])) {
-        //         // dd($key);
-        //         if (isset($surveyAnswerRequest[$surveyKey])) {
-        //             $surveyAnswerDetailModel = new SurveyAnswerDetail();
-        //             // $surveyAnswerDetailModel->survey_id = $surveyId;
-        //             // $surveyAnswerDetailModel->answer = $answer;
-        //             // insert
-        //             // $surveyAnswerDetailModel->fill($request->all())->save();
-        //         }
-        //     } else {
-        //         $surveyId = $surveyId + 1;
-        //         $answerKey = "answer_".$surveyId;
-        //         dd($answerKey);
-        //         $surveyKey = "survey_".$surveyId;
-        //         $surveyAnswerDetailModel = new SurveyAnswerDetail();
-        //         $surveyAnswerDetailModel->survey_id = $surveyId;
-        //         $surveyAnswerDetailModel->answer = $answer;
-        //     }
-
-
-        // }
-        // dd($surveyAnswerRequest);
-        // if (isset($surveyAnswerRequest['answe_1'])) {
-        //     echo $ary['answe_1'];
-        // }
-
-
         // 完了画面にリダイレクト
         return view('surveyanswer.complet');
-        // , compact('survey'))->with('message', '保存しました');
     }
 
     public function edit(SurveyAnswer $surveyanswer) {
