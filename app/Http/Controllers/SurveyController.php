@@ -42,11 +42,9 @@ class SurveyController extends Controller
         // insert
         $surveyModel->fill($request->all())->save();
 
-        // Surveyデータを取得
-        $surveys = survey::all();
-
         // 一覧画面にリダイレクト
-        return view('survey.index', compact('surveys'));
+        return redirect('survey.index');
+        // return view('survey.index', compact('surveys'));
         // compact('survey'))->with('message', '保存しました');
     }
 
