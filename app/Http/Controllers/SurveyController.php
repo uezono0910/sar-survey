@@ -28,12 +28,6 @@ class SurveyController extends Controller
     }
 
     public function store(Request $request, Survey $survey) {
-        // $validated = $request->validate([
-        //     'title' => 'required|max:20',
-        //     'body' => 'required|max:400',
-        // ]);
-        // $survey = Survey::create($validated);
-
         // Modelをインスタンス化
         $surveyModel = new Survey();
 
@@ -50,17 +44,22 @@ class SurveyController extends Controller
     }
 
     public function update(Request $request, Survey $survey) {
-        $validated = $request->validate([
-            'title' => 'required|max:20',
-            'body' => 'required|max:400',
-        ]);
+        dd($request);
+        // dd($request->all());
+        // dd($survey->toArray());
 
-        $validated['user_id'] = auth()->id();
-        $survey->update($validated);
-        // $request->session()->flash('message', '更新しました');
-        // return back();
-        $request->session()->flash('message', '更新しました');
-        return redirect()->route('survey.show', compact('survey'));
+        // // Modelをインスタンス化
+        // $surveyModel = new Survey();
+        // $survey->content = $request->content;
+        // $survey->content = $request->content;
+        // $survey->type = $request->type;
+        // $survey->choices = $request->choices;
+        // $survey->save();
+
+        $survey->update($request->all());
+        // // $request->session()->flash('message', '更新しました');
+        // // return back();
+        return redirect()->route('survey.index');
     }
 
     public function destroy(Request $request, Survey $survey) {

@@ -13,7 +13,7 @@
 
                 <!-- Navigation Links -->
                 @can('auth')
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown aligne="right" width="48">
                         <x-slot name="trigger">
                             <button class="l-6 flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ __('メニュー') }}</div>
@@ -26,20 +26,15 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                            <x-dropdown-link :href="route('survey.index')">
+                                {{ __('アンケート一覧') }}
                             </x-dropdown-link>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
+                            <x-dropdown-link :href="route('survey.create')">
+                                {{ __('アンケート登録') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('surveyanswer.index')">
+                                {{ __('アンケート回答一覧') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 @endcan
@@ -47,7 +42,7 @@
             <!-- Settings Dropdown -->
             @can('auth')
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <x-dropdown align="right" width="48">
+                    <x-dropdown aligne="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>

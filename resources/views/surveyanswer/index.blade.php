@@ -1,42 +1,38 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight overflow-x-scroll">
-        一覧表示
+        アンケート回答一覧
       </h2>
   </x-slot>
-  <div class="px-6 py-12">
-    <div class="overflow-x-scroll">
+  <div class="mx-12 py-12">
+    <div class="overflow-scroll w-full">
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-            <th class="whitespace-nowrap">回答日</th>
-            <th class="whitespace-nowrap">質問1</th>
-            <th class="whitespace-nowrap">質問2</th>
-            <th class="whitespace-nowrap">質問3</th>
-            <th class="whitespace-nowrap">質問4</th>
-            <th class="whitespace-nowrap">質問5</th>
-            <th class="whitespace-nowrap">質問6</th>
-            <th class="whitespace-nowrap">質問7</th>
-            <th class="whitespace-nowrap">質問8</th>
-            <th class="whitespace-nowrap">質問9</th>
-            <th class="whitespace-nowrap">質問10</th>
+          <th class="whitespace-nowrap">投稿日</th>
+          @foreach($surveys as $survey)
+            <th class="whitespace-nowrap">{{ $survey->content }}</th>
+          @endforeach
           </tr>
         </thead>
         <tbody class="bg-white">
           @foreach ($surveyanswers as $surveyanswer)
-          <tr>
-            <td class="answered_at">{{ $surveyanswer->answered_at }}</td>
-            <td class="whitespace-nowrap">{{ $surveyanswer->answer_text_01 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_02 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_03 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_04 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_05 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_06 }}</td>
-            <td class="min-w-80">{{ $surveyanswer->answer_text_07 }}</td>
-            <td class="whitespace-nowrap">{{ $surveyanswer->answer_text_08 }}</td>
-            <td class="whitespace-nowrap">{{ $surveyanswer->answer_text_09 }}</td>
-            <td class="whitespace-nowrap">{{ $surveyanswer->answer_text_10 }}</td>
-          </tr>
+            <tr>
+              <td class="whitespace-nowrap">{{ $surveyanswer->created_at }}</td>
+              @foreach($surveys as $survey)
+                <td class="answered_at">
+                @foreach ($surveyanswerdetails as $surveyanswerdetail)
+                    @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
+                      {{-- <td class="answered_at"> --}}
+                      {{ $surveyanswerdetail->answer }}
+                      {{-- </td> --}}
+                    {{-- @else
+                      <td class="answered_at"></td> --}}
+                    @endif
+                @endforeach
+                </td>
+              @endforeach
+            </tr>
           @endforeach
         </tbody>
       </table>

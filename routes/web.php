@@ -37,14 +37,11 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function() {
     Route::resource('survey', SurveyController::class);
-});
-// Route::resource('surveyanswer', SurveyAnswerController::class);
-
-// ログインユーザーのみアンケート一覧画面を表示
-Route::middleware('auth')->group(function() {
+    // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
+    // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
 });
-// ->middleware('admin')
+
 Route::get('surveyanswer/show/{surveyanswer}', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
 Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
 Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');

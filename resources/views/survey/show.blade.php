@@ -1,56 +1,38 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        個別表示
+          アンケート内容
       </h2>
   </x-slot>
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="bg-white w-full rounded-2xl">
-      <div class="mt-4 p-4">
-        <h1 class="text-lg font-semibold">
-          {{$survey->title}}
-        </h1>
-        <div>
-          <a href="{{route('survey.edit', $survey)}}">
-            <x-primary-button>
-              編集
-            </x-primary-button>
-          </a>
-          <form method="Survey" action="{{route('survey.destroy', $survey)}}">
-            @csrf
-            @method('delete')
-            <x-primary-button>
-              削除
-            </x-primary-button>
-          </form>
-        </div>
-        <hr>
-        <p class="mt-4 whitespace-pre-line">
-          {{$survey->body}}
-        </p>
-        <div class="text-sm font-semibold flex flex-row-reverse">
-          <p>
-            {{$survey->created_at}}
-          </p>
-        </div>
-      </div>
+  {{-- @if (session('message'))
+    <div>
+      {{ session('message') }}
     </div>
-
-    {{-- @foreach ($surveys as $survey)
-      <div class="mt-4 p-8 bg-white w-full rounded-2xl">
-        <h1 class="p-4 text-lg font-semibold">
-          {{ $survey->title}}
-        </h1>
-        <hr class="w-full">
-        <p class="mt-4 p-4">
-          {{ $survey->body }}
-        </p>
-        <div class="mt-4 p-8 bg-white w-full rounded-2xl">
-          <p>
-            {{ $survey->created_at }} / {{ $survey->user->name??'匿名' }}
-          </p>
-        </div>
+  @endif --}}
+  <div class="max-w-7xl mx-auto px-40 py-12">
+    <form method="PUT" action="{{ route('survey.index', $survey) }}">
+      @csrf
+      <div class="w-full flex flex-col">
+        <div class="font-somibold mt-4 mb-2 font-bold">質問内容</div>
+        <div class="min-w-80">{{ $survey->content }}</div>
       </div>
-    @endforeach --}}
+
+      <div class="w-full flex flex-col py-3">
+        <div for="type" class="font-somibold mt-4 mb-2 font-bold">フォームタイプ</div>
+        <div class="min-w-80">{{ $survey->type }}</div>
+      </div>
+      <div class="w-full flex flex-col py-3">
+        <div for="choices" class="font-somibold mt-4 mb-2 font-bold">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</div>
+        <div class="">{{ $survey->choices }}</div>
+      </div>
+      <div>
+        <x-primary-button class="mt-8 mr-4">
+          一覧
+        </x-primary-button>
+        <x-primary-button class="mt-8">
+          <a class="m-auto" href="{{ route('survey.edit', ['survey'=>$survey->id]) }}">編集する</a>
+        </x-primary-button>
+      </div>
+    </form>
   </div>
 </x-app-layout>
