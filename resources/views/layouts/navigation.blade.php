@@ -2,7 +2,7 @@
     <!-- Primary Navigation Menu -->
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <div class="flex items-center">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center justify-center relative w-16">
                     @can('auth')
@@ -34,6 +34,9 @@
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('surveyanswer.index')">
                                 {{ __('アンケート回答一覧') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('surveyanswer.create')">
+                                {{ __('アンケート回答') }}
                             </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>

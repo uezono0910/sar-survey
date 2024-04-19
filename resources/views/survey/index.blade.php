@@ -23,13 +23,23 @@
               <td class="min-w-80">{{ $survey->type }}</td>
               <td class="min-w-80">{{ $survey->choices }}</td>
               <td><a class="m-auto" href="{{ route('survey.edit', ['survey'=>$survey->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAr0lEQVR4nO2UQQrCMBBF5woiQt4v9B6u9B4exKUuewD1OHoKDyK4j0QbWopZdbrLh4HM5v2ZDxOzKjMDzpK6JeGxL38T4Dgy8DMJIewKW8TUz4IzALvCJicPeJxOm96zpmcCd82dMvxbTdPsF4PLM3NV+OKxJElaA7d/8NlXmhVC2LjDgYOkbe7btl3lTVwmBy6SXmMT/eLyiQV49HG8x7+lmyQ9gTtwTXH5kausrA8EoobA4svtJQAAAABJRU5ErkJggg=="></a></td>
-              <td><a class="m-auto" href="{{ route('survey.destroy', ['survey'=>$survey->id]) }}"><img class="m-auto" alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9ImZpbGw6IzFBMUExQTsiPgogICAgPHBhdGggZD0iTSAxMCAyIEwgOSAzIEwgNSAzIEMgNC40NDggMyA0IDMuNDQ4IDQgNCBDIDQgNC41NTIgNC40NDggNSA1IDUgTCA3IDUgTCAxNyA1IEwgMTkgNSBDIDE5LjU1MiA1IDIwIDQuNTUyIDIwIDQgQyAyMCAzLjQ0OCAxOS41NTIgMyAxOSAzIEwgMTUgMyBMIDE0IDIgTCAxMCAyIHogTSA1IDcgTCA1IDIwIEMgNSAyMS4xMDUgNS44OTUgMjIgNyAyMiBMIDE3IDIyIEMgMTguMTA1IDIyIDE5IDIxLjEwNSAxOSAyMCBMIDE5IDcgTCA1IDcgeiI+PC9wYXRoPgo8L3N2Zz4="/></a></td>
+              <td>
+                <form action="{{route('survey.destroy', $survey->id)}}" method="post" class="m-auto">
+                  @csrf
+                  @method('delete')
+                  <input type="image" class="m-auto" onclick='return confirm("削除しますか？");' alt="svgImg" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9ImZpbGw6IzFBMUExQTsiPgogICAgPHBhdGggZD0iTSAxMCAyIEwgOSAzIEwgNSAzIEMgNC40NDggMyA0IDMuNDQ4IDQgNCBDIDQgNC41NTIgNC40NDggNSA1IDUgTCA3IDUgTCAxNyA1IEwgMTkgNSBDIDE5LjU1MiA1IDIwIDQuNTUyIDIwIDQgQyAyMCAzLjQ0OCAxOS41NTIgMyAxOSAzIEwgMTUgMyBMIDE0IDIgTCAxMCAyIHogTSA1IDcgTCA1IDIwIEMgNSAyMS4xMDUgNS44OTUgMjIgNyAyMiBMIDE3IDIyIEMgMTguMTA1IDIyIDE5IDIxLjEwNSAxOSAyMCBMIDE5IDcgTCA1IDcgeiI+PC9wYXRoPgo8L3N2Zz4=">
+                </form>
+              </td>
             </tr>
           @endforeach
         </tbody>
       </table>
     </div>
   </div>
+  {{-- <div class="flex justify-end mr-12">
+    <x-primary-button>
+    </x-primary-button>
+  </div> --}}
 </x-app-layout>
 <style>
 th, td {

@@ -32,7 +32,10 @@
         <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
         <input type="text" name="choices" cols="20" wrap="soft" class="border border-gray-500" value="{{ old('choices', $survey->choices) }}"/>
       </div>
-      <div>
+      <div class="flex">
+        <x-primary-button class="mt-8 mr-8">
+          <a class="m-auto" href="{{ route('survey.index') }}">一覧</a>
+        </x-primary-button>
         <x-primary-button class="mt-8">
           編集する
         </x-primary-button>

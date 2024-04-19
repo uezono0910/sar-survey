@@ -9,6 +9,7 @@ use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Support\Facades\Log;
+use App\Enum\ESurveyType;
 
 class SurveyController extends Controller
 {
@@ -16,6 +17,12 @@ class SurveyController extends Controller
         // Surveyデータを取得して降順にソート
         $surveys = survey::all()->sortByDesc('updated_at');
         // dd($surveys);
+        // カラムtypeの数値を名前をつけて文字列に変換
+        $type = survey::get(['type']);
+        if ($type === "1") {
+            $type = "テキストボックス";
+        }
+        // dd($type);
         return view('survey.index', compact('surveys'));
     }
 
@@ -44,27 +51,15 @@ class SurveyController extends Controller
     }
 
     public function update(Request $request, Survey $survey) {
-        dd($request);
-        // dd($request->all());
-        // dd($survey->toArray());
-
-        // // Modelをインスタンス化
-        // $surveyModel = new Survey();
-        // $survey->content = $request->content;
-        // $survey->content = $request->content;
-        // $survey->type = $request->type;
-        // $survey->choices = $request->choices;
-        // $survey->save();
 
         $survey->update($request->all());
         // // $request->session()->flash('message', '更新しました');
-        // // return back();
         return redirect()->route('survey.index');
     }
 
     public function destroy(Request $request, Survey $survey) {
         $survey->delete();
-        $request->session()->flash('message', '削除しました');
+        // $request->session()->flash('message', '削除しました');
         return redirect()->route('survey.index');
     }
 }

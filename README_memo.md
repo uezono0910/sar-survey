@@ -25,3 +25,6 @@ alias sail='./vendor/bin/sail'
 ```
 sail up -d
 ```
+
+### dev スクリプトを実行
+sail npm run dev

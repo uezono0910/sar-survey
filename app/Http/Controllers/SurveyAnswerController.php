@@ -127,7 +127,7 @@ class SurveyAnswerController extends Controller
         // }
 
         // 完了画面にリダイレクト
-        return view('surveyanswer.complet');
+        return view('surveyanswer.complete');
     }
 
     public function edit(SurveyAnswer $surveyanswer) {

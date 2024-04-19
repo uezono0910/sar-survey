@@ -40,9 +40,10 @@ Route::middleware('auth')->group(function() {
     // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
+    Route::get('survey/{survey}/show', [SurveyController::class, 'show'])->name('survey.show');
 });
 
-Route::get('surveyanswer/show/{surveyanswer}', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
+Route::get('surveyanswer/{surveyanswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
 Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
 Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
 Route::get('surveyanswer/{surveyanswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
