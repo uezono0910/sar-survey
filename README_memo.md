@@ -1,3 +1,10 @@
+# Docker を使用する場合
+## Dockerを起動
+```
+docker compose up -d
+```
+
+# Laravel sail を使用する場合
 ## エイリアスの設定
 エイリアスの設定の目的は、コマンド実行の際にパスを指定する必要があるため、パスなしでコマンド実行ができるようにする
 ```
@@ -28,3 +35,6 @@ sail up -d
 
 ### dev スクリプトを実行
 sail npm run dev
+
+### ビルド
+sail npm run build
