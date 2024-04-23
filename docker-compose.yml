@@ -27,6 +27,7 @@ services:
             # - meilisearch
             # - mailpit
             # - selenium
+        command: command_to_run_on_container_startup
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
