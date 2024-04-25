@@ -1,5 +1,7 @@
+version: '3.8'
+
 services:
-    laravel:
+    laravel.test:
         build:
             context: ./vendor/laravel/sail/runtimes/8.3
             dockerfile: Dockerfile
@@ -103,10 +105,9 @@ services:
 networks:
     sail:
         driver: bridge
+
 volumes:
     sail-mysql:
         driver: local
     sail-redis:
-        driver: local
-    sail-meilisearch:
         driver: local
