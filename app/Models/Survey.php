@@ -13,5 +13,6 @@ class Survey extends Model
         'content',
         'type',
         'choices',
+        'order',
     ];
 }

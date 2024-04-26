@@ -42,8 +42,8 @@ class SurveyAnswerController extends Controller
     }
 
     public function create() {
-        $surveys = survey::all();
-        // dd($surveys);
+        $surveys = survey::orderBy('order', 'asc')->get();
+        Log::debug($surveys);
         return view('surveyanswer.create', compact('surveys'));
     }
 

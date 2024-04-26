@@ -15,14 +15,28 @@ class SurveyController extends Controller
 {
     public function index() {
         // Surveyデータを取得して降順にソート
-        $surveys = survey::all()->sortByDesc('updated_at');
-        // dd($surveys);
+        $surveys = survey::orderBy('order', 'asc')->get();
         // カラムtypeの数値を名前をつけて文字列に変換
-        $type = survey::get(['type']);
-        if ($type === "1") {
-            $type = "テキストボックス";
+        foreach($surveys as $survey){
+            Log::debug($survey);
+            if ($survey['type'] == "1") {
+                $survey['type'] = "テキストボックス";
+                Log::debug($survey['type']);
+            } elseif($survey['type'] == "2") {
+                $survey['type'] = "テキストエリア";
+                Log::debug($survey['type']);
+            } elseif($survey['type'] == "3") {
+                $survey['type'] = "セレクトボックス";
+                Log::debug($survey['type']);
+            } elseif($survey['type'] == "4") {
+                $survey['type'] = "ラジオボタン";
+                Log::debug($survey['type']);
+            } elseif($survey['type'] == "5") {
+                $survey['type'] = "チェックボックス";
+                Log::debug($survey['type']);
+            }
         }
-        // dd($type);
+
         return view('survey.index', compact('surveys'));
     }
 

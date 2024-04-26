@@ -9,18 +9,18 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-          <th class="whitespace-nowrap">投稿日</th>
+          <th class="whitespace-nowrap p-2 text-left">投稿日</th>
           @foreach($surveys as $survey)
-            <th class="whitespace-nowrap">{{ $survey->content }}</th>
+            <th class="min-w-64 p-2 text-left">{{ $survey->content }}</th>
           @endforeach
           </tr>
         </thead>
         <tbody class="bg-white">
           @foreach ($surveyanswers as $surveyanswer)
             <tr>
-              <td class="whitespace-nowrap">{{ $surveyanswer->created_at }}</td>
+              <td class="whitespace-nowrap p-2 text-left">{{ $surveyanswer->created_at }}</td>
               @foreach($surveys as $survey)
-                <td class="answered_at">
+                <td>
                 @foreach ($surveyanswerdetails as $surveyanswerdetail)
                     @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
                       {{-- <td class="answered_at"> --}}
@@ -42,11 +42,5 @@
 <style>
 th, td {
   border: solid .5px #d3d3d3;
-  padding: .5rem;
-  text-align: center;
-  max-width: 300px;
-}
-th, .answered_at {
-  white-space: nowrap;
 }
 </style>
