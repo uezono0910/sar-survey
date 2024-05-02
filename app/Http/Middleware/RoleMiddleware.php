@@ -15,9 +15,9 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role == '1'){
+        if(auth()->user()->role == 'admin'){
             return $next($request);
         }
-        return redirect()->route('surveyanswer.index');
+        return redirect()->route('surveyanswer.create');
     }
 }

@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class survey extends Model
+class surveyItems extends Model
 {
     use HasFactory;
     protected $table = 'survey';
     protected $fillable = [
-        'date',
-        'title',
+        'content',
+        'type',
+        'choices',
+        'order',
     ];
 }

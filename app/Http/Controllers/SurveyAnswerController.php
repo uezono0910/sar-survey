@@ -18,7 +18,7 @@ class SurveyAnswerController extends Controller
 {
     public function index() {
         // Surveyデータをすべて取得
-        $surveys = survey::all();
+        $surveys = Survey::all();
         // dd($surveys);
         $surveyanswers = surveyanswer::all()->sortByDesc('updated_at');
         $surveyanswerdetails = surveyanswer::query()
@@ -152,5 +152,21 @@ class SurveyAnswerController extends Controller
         // $surveyanswer->delete();
         // $request->session()->flash('message', '削除しました');
         // return redirect()->route('surveyanswer.index');
+    }
+
+    public function answer(Request $request, int $id) {
+
+        $query = SurveyAnswer::query();
+        $surveys = $query->where([
+            ['id','=',$id]
+        ])->get();
+
+        $surveyAnswerModel = new SurveyAnswer()
+
+        // $query = SurveyDate::query();
+        // $query->where
+
+        $surveys = surveyDate::orderBy('order', 'asc')->get();
+        return view('surveyanswer.create', compact('surveys'));
     }
 }

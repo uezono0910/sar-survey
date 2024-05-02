@@ -24,27 +24,22 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-    // return redirect()->route('surveyanswer/create');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function() {
-    Route::resource('survey', SurveyController::class);
+Route::middleware('admin')->group(function() {
+    Route::resource('surveyitem', SurveyController::class);
     // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
-    Route::get('survey/{survey}/show', [SurveyController::class, 'show'])->name('survey.show');
 });
 
 Route::get('surveyanswer/{surveyanswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
 Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
+Route::get('surveyanswer/{survey_date}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.answer');
 Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
 Route::get('surveyanswer/{surveyanswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
 Route::patch('surveyanswer/{surveyanswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
