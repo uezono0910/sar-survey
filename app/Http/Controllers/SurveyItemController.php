@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Models\surveyItems;
+use App\Models\surveyItem;
 use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -37,7 +37,7 @@ class SurveyItemController extends Controller
             }
         }
 
-        return view('surveyitem.index', compact('surveyitems'));
+        return view('surveyitem.index', compact('surveyItems'));
     }
 
     public function show (SurveyItem $surveyItem) {
@@ -61,7 +61,7 @@ class SurveyItemController extends Controller
     }
 
     public function edit(SurveyItem $surveyItem) {
-        return view('surveyitem.edit', compact('surveyitem'));
+        return view('surveyitem.edit', compact('surveyItem'));
     }
 
     public function update(Request $request, SurveyItem $surveyItem) {

@@ -10,7 +10,7 @@
         <thead class="bg-blue-100">
           <tr>
           <th class="whitespace-nowrap p-2 text-left">投稿日</th>
-          @foreach($surveys as $survey)
+          @foreach($surveyItems as $surveyItem)
             <th class="min-w-64 p-2 text-left">{{ $survey->content }}</th>
           @endforeach
           </tr>

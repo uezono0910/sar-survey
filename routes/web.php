@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurveyAnswerController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveyItemController;
 use App\Models\SurveyAnswer;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('admin')->group(function() {
-    Route::resource('surveyitem', SurveyController::class);
+    Route::resource('surveyitem', SurveyItemController::class);
     // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');

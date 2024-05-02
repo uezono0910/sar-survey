@@ -26,11 +26,11 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('survey.index')">
-                                {{ __('アンケート一覧') }}
+                            <x-dropdown-link :href="route('surveyitem.index')">
+                                {{ __('アンケート項目一覧') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('survey.create')">
-                                {{ __('アンケート登録') }}
+                            <x-dropdown-link :href="route('surveyitem.create')">
+                                {{ __('アンケート項目登録') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('surveyanswer.index')">
                                 {{ __('アンケート回答一覧') }}

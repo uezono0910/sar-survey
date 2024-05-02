@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
+            $table->text('date');
+            $table->text('title');
             $table->timestamps();
         });
     }
