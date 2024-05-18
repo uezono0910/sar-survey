@@ -3,62 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Models\survey;
+use App\Models\SurveyAnswer;
+use GuzzleHttp\Psr7\Message;
+use Symfony\Contracts\Service\Attribute\Required;
+use Illuminate\Support\Facades\Log;
+use App\Enum\ESurveyType;
 
 class SurveyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function index() {
+        // surveyデータを取得して降順にソート
+        $surveys = Survey::orderBy('order', 'asc')->get();
+        return view('survey.index', compact('surveys'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function show (Survey $survey) {
+        return view('survey.show', compact('survey'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function create() {
+        return view('survey.create');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function store(Request $request, Survey $survey) {
+        // Modelをインスタンス化
+        $surveyModel = new Survey();
+
+        // insert
+        $surveyModel->fill($request->all())->save();
+
+        // 一覧画面にリダイレクト
+        return redirect()->route('survey.index');
+        // ->with('message', '保存しました');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function edit(Survey $survey) {
+        return view('survey.edit', compact('survey'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, Survey $survey) {
+
+        $survey->update($request->all());
+        // // $request->session()->flash('message', '更新しました');
+        return redirect()->route('survey.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Request $request, Survey $survey) {
+        $survey->delete();
+        // $request->session()->flash('message', '削除しました');
+
+        return redirect()->route('survey.index');
     }
 }

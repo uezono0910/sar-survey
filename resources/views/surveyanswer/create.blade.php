@@ -42,7 +42,7 @@
               <div class="flex">
               @foreach (explode(",",$surveyItem->choices) as $choice)
                 <div class="mr-6">
-                  <input type="checkbox" name="surveyItem_{{ $surveyItem->id }}[]" value="{{$choice}}" />
+                  <input type="checkbox" name="surveyitem_{{ $surveyitem->id }}[]" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach

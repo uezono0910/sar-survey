@@ -32,8 +32,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('admin')->group(function() {
+    Route::resource('survey', SurveyController::class);
     Route::resource('surveyitem', SurveyItemController::class);
-    // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
+    // Route::match(['put', 'patch'], 'surveyitem/{surveyitem}/update', [SurveyItemController::class, 'update'])->name('surveyitem.update');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
 });

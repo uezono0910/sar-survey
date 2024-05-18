@@ -18,22 +18,16 @@ class SurveyItemController extends Controller
         $surveyItems = SurveyItem::orderBy('order', 'asc')->get();
         // カラムtypeの数値を名前をつけて文字列に変換
         foreach($surveyItems as $surveyItem){
-            Log::debug($surveyItem);
             if ($surveyItem['type'] == "1") {
                 $surveyItem['type'] = "テキストボックス";
-                Log::debug($surveyItem['type']);
             } elseif($surveyItem['type'] == "2") {
                 $surveyItem['type'] = "テキストエリア";
-                Log::debug($surveyItem['type']);
             } elseif($surveyItem['type'] == "3") {
                 $surveyItem['type'] = "セレクトボックス";
-                Log::debug($surveyItem['type']);
             } elseif($surveyItem['type'] == "4") {
                 $surveyItem['type'] = "ラジオボタン";
-                Log::debug($surveyItem['type']);
             } elseif($surveyItem['type'] == "5") {
                 $surveyItem['type'] = "チェックボックス";
-                Log::debug($surveyItem['type']);
             }
         }
 
@@ -41,7 +35,7 @@ class SurveyItemController extends Controller
     }
 
     public function show (SurveyItem $surveyItem) {
-        return view('surveyitem.show', compact('surveyitem'));
+        return view('surveyitem.show', compact('surveyItem'));
     }
 
     public function create() {
@@ -60,20 +54,21 @@ class SurveyItemController extends Controller
         // ->with('message', '保存しました');
     }
 
-    public function edit(SurveyItem $surveyItem) {
-        return view('surveyitem.edit', compact('surveyItem'));
+    public function edit(SurveyItem $surveyitem) {
+        return view('surveyitem.edit', compact('surveyitem'));
     }
 
-    public function update(Request $request, SurveyItem $surveyItem) {
+    public function update(Request $request, SurveyItem $surveyitem) {
 
-        $surveyItem->update($request->all());
+        $surveyitem->update($request->all());
         // // $request->session()->flash('message', '更新しました');
         return redirect()->route('surveyitem.index');
     }
 
-    public function destroy(Request $request, SurveyItem $surveyItem) {
-        $surveyItem->delete();
+    public function destroy(Request $request, SurveyItem $surveyitem) {
+        $surveyitem->delete();
         // $request->session()->flash('message', '削除しました');
+
         return redirect()->route('surveyitem.index');
     }
 }

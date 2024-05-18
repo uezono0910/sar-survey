@@ -11,7 +11,7 @@
           <tr>
           <th class="whitespace-nowrap p-2 text-left">投稿日</th>
           @foreach($surveyItems as $surveyItem)
-            <th class="min-w-64 p-2 text-left">{{ $survey->content }}</th>
+            <th class="min-w-64 p-2 text-left">{{ $surveyItem->content }}</th>
           @endforeach
           </tr>
         </thead>
@@ -19,7 +19,7 @@
           @foreach ($surveyanswers as $surveyanswer)
             <tr>
               <td class="whitespace-nowrap p-2 text-left">{{ $surveyanswer->created_at }}</td>
-              @foreach($surveys as $survey)
+              @foreach($surveyItem as $surveyItem)
                 <td>
                 @foreach ($surveyanswerdetails as $surveyanswerdetail)
                     @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
