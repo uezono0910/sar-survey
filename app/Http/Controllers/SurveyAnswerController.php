@@ -19,11 +19,12 @@ class SurveyAnswerController extends Controller
     public function index() {
         // Surveyデータをすべて取得
         $surveys = survey::all();
-        // dd($surveys);
+        Log::debug($surveys);
         $surveyanswers = surveyanswer::all()->sortByDesc('updated_at');
         $surveyanswerdetails = surveyanswer::query()
             ->join('survey_answer_details', 'survey_answers.id', '=', 'survey_answer_details.survey_answer_id')
             ->get();
+        Log::debug($surveyanswerdetails);
 
         // return DB::table('survey_answers')
         //     ->join('survey_answers' as 'survey_answer', function($join) {
