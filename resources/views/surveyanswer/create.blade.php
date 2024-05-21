@@ -17,7 +17,7 @@
       @foreach($surveys as $survey)
         <div class="mt-8">
           <div class="w-full flex flex-col py-3">
-            <label class="font-somibold mt-4 mb-2">{{ $survey->content }}</label>
+            <label class="font-somibold mt-4 mb-4">■{{ $survey->content }}</label>
             <x-input-error :messages="$errors->get('body')" class="mt-2" />
             @if($survey->type === "1")
               <input type="text" name="survey_{{ $survey->id }}" />
