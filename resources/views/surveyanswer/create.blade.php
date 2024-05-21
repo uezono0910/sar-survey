@@ -39,7 +39,7 @@
               @endforeach
               </div>
             @elseif($survey->type === "5")
-              <div class="flex">
+              <div class="flex flex-wrap">
               @foreach (explode(",",$survey->choices) as $choice)
                 <div class="mr-6">
                   <input type="checkbox" name="survey_{{ $survey->id }}[]" value="{{$choice}}" />
