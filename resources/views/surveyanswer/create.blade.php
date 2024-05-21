@@ -33,7 +33,7 @@
               <div class="flex flex-wrap ml-4">
               @foreach (explode(",",$survey->choices) as $choice)
                 <div class="mr-6">
-                  <input class="ml-4" type="radio" name="survey_{{ $survey->id }}" value="{{$choice}}" />
+                  <input type="radio" name="survey_{{ $survey->id }}" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach
@@ -42,7 +42,7 @@
               <div class="flex flex-wrap ml-4">
               @foreach (explode(",",$survey->choices) as $choice)
                 <div class="mr-6">
-                  <input class="ml-4" type="checkbox" name="survey_{{ $survey->id }}[]" value="{{$choice}}" />
+                  <input type="checkbox" name="survey_{{ $survey->id }}[]" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach
