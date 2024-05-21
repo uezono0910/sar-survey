@@ -53,13 +53,11 @@
 // フォーム要素を取得
 let inputElement = document.getElementById('order');
 let inputValue = inputElement.value;
-if (inputValue == "") {
-  inputValue = 0;
-}
-// input要素にイベントのリスナーを追加
+
+// 表示順のフォームの値を取得
 function setupInputListener(inputElement) {
   inputElement.addEventListener('input', function() {
-    // 入力が変更されるたびに実行される処理
+    // 入力が変更されるたびに実行
     inputValue = inputElement.value;
     if (inputValue == "") {
       inputValue = 0;

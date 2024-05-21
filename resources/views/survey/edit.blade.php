@@ -57,3 +57,35 @@
     </form>
   </div>
 </x-app-layout>
+
+<script>
+// input要素にイベントのリスナーを追加
+function setupInputListener(inputElement) {
+  let inputValue = inputElement.value;
+  inputElement.addEventListener('input', function() {
+    // 入力が変更されるたびに実行される処理
+    inputValue = inputElement.value;
+    if (inputValue == "") {
+      inputValue = 0;
+    }
+  });
+}
+
+// 順番の数値を増やす
+function getCountUp($countUp){
+  let inputElement = document.getElementById('order');
+  let inputValue = Number(inputElement.value);
+  inputValue = inputValue + 1;
+  document.getElementById( "order" ).value = inputValue ;
+}
+
+// 順番の数値を減らす
+function getCountDown($countDown){
+  let inputElement = document.getElementById('order');
+  let inputValue = Number(inputElement.value);
+  if (inputValue > 1) {
+    inputValue = inputValue - 1;
+    document.getElementById( "order" ).value = inputValue ;
+  }
+}
+</script>
