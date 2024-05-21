@@ -35,7 +35,7 @@
       <div class="w-64 flex flex-col">
         <label for="order" class="font-somibold mt-4 mb-2">表示順</label>
         <div class="flex">
-          <input id="order" type="text" name="order" />
+          <input id="order" type="text" name="order" value="{{ old('order', $survey->order) }}">
           <div class="flex flex-col">
             <div id="countUp" onclick="getCountUp()" class="ml-1 mb-1 text-xs leading-none text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400">
             △
