@@ -45,7 +45,6 @@
 th, td {
   border: solid .5px #d3d3d3;
   padding: .5rem;
-  text-align: center;
   max-width: 300px;
 }
 th {
