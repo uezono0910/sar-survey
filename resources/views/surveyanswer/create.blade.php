@@ -17,30 +17,30 @@
       @foreach($surveyItems as $surveyItem)
         <div class="mt-8">
           <div class="w-full flex flex-col py-3">
-            <label class="font-somibold mt-4 mb-2">{{ $surveyItem->content }}</label>
+            <label class="font-somibold mt-4 mb-4">{{ $survey->content }}</label>
             <x-input-error :messages="$errors->get('body')" class="mt-2" />
-            @if($surveyItem->type === "1")
-              <input type="text" name="surveyItem_{{ $surveyItem->id }}" />
-            @elseif($surveyItem->type === "2")
-              <textarea class="min-h-32" name="surveyItem_{{ $surveyItem->id }}"></textarea>
-            @elseif($surveyItem->type === "3")
-              <select class="w-1/2" name="surveyItem_{{ $surveyItem->id }}">
-              @foreach (explode(",",$surveyItem->choices) as $choice)
+            @if($survey->type === 1)
+              <input class="ml-4" type="text" name="survey_{{ $survey->id }}" />
+            @elseif($survey->type === 2)
+              <textarea class="min-h-32 ml-4" name="survey_{{ $survey->id }}"></textarea>
+            @elseif($survey->type === 3)
+              <select class="w-1/2 ml-4" name="survey_{{ $survey->id }}">
+              @foreach (explode(",",$survey->choices) as $choice)
                 <option>{{ $choice }}</option>
               @endforeach
               </select>
-            @elseif($surveyItem->type === "4")
-              <div class="flex">
-              @foreach (explode(",",$surveyItem->choices) as $choice)
+            @elseif($survey->type === 4)
+              <div class="flex flex-wrap ml-4">
+              @foreach (explode(",",$survey->choices) as $choice)
                 <div class="mr-6">
                   <input type="radio" name="surveyItem_{{ $surveyItem->id }}" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach
               </div>
-            @elseif($surveyItem->type === "5")
-              <div class="flex">
-              @foreach (explode(",",$surveyItem->choices) as $choice)
+            @elseif($survey->type === 5)
+              <div class="flex flex-wrap ml-4">
+              @foreach (explode(",",$survey->choices) as $choice)
                 <div class="mr-6">
                   <input type="checkbox" name="surveyitem_{{ $surveyitem->id }}[]" value="{{$choice}}" />
                   <label>{{ $choice }}</label>

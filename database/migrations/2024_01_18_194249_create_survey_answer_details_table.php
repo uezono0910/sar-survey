@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('survey_answer_details', function (Blueprint $table) {
             $table->id();
             $table->text('answer')->nullable();
-            $table->text('survey_item_id');
-            $table->text('survey_answer_id');
+            $table->integer('survey_item_id');
+            $table->integer('survey_answer_id');
             $table->timestamps();
             $table->softDeletes();
         });

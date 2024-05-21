@@ -20,7 +20,7 @@
           @foreach ($surveyItems as $surveyItem)
             <tr>
               <td class="min-w-80">{{ $surveyItem->content }}</td>
-              <td>{{ $surveyItem->type }}</td>
+              <td class="min-w-40">{{ $surveyItem->type }}</td>
               <td class="min-w-80">{{ $surveyItem->choices }}</td>
               <td><a class="m-auto" href="{{ route('surveyitem.edit', ['surveyitem'=>$surveyItem->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAr0lEQVR4nO2UQQrCMBBF5woiQt4v9B6u9B4exKUuewD1OHoKDyK4j0QbWopZdbrLh4HM5v2ZDxOzKjMDzpK6JeGxL38T4Dgy8DMJIewKW8TUz4IzALvCJicPeJxOm96zpmcCd82dMvxbTdPsF4PLM3NV+OKxJElaA7d/8NlXmhVC2LjDgYOkbe7btl3lTVwmBy6SXmMT/eLyiQV49HG8x7+lmyQ9gTtwTXH5kausrA8EoobA4svtJQAAAABJRU5ErkJggg=="></a></td>
               <td>
@@ -45,7 +45,6 @@
 th, td {
   border: solid .5px #d3d3d3;
   padding: .5rem;
-  text-align: center;
   max-width: 300px;
 }
 th {

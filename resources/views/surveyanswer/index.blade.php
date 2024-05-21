@@ -23,11 +23,7 @@
                 <td>
                 @foreach ($surveyanswerdetails as $surveyanswerdetail)
                     @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
-                      {{-- <td class="answered_at"> --}}
                       {{ $surveyanswerdetail->answer }}
-                      {{-- </td> --}}
-                    {{-- @else
-                      <td class="answered_at"></td> --}}
                     @endif
                 @endforeach
                 </td>

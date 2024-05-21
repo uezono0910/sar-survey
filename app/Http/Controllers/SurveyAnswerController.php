@@ -19,19 +19,11 @@ class SurveyAnswerController extends Controller
     public function index() {
         // SurveyItemデータをすべて取得
         $surveyItems = SurveyItem::all();
-        // dd($surveyitems);
         $surveyanswers = surveyanswer::all()->sortByDesc('updated_at');
         $surveyanswerdetails = surveyanswer::query()
             ->join('survey_answer_details', 'survey_answers.id', '=', 'survey_answer_details.survey_answer_id')
             ->get();
 
-        // return DB::table('survey_answers')
-        //     ->join('survey_answers' as 'survey_answer', function($join) {
-        //         $join->on('survey_answer_details.survey_answer_id', '=', 'survey_answers.id');
-        //     })
-        //     ->get();
-
-        // dd($surveyanswerdetails);
         Gate::authorize('auth');
         // アンケート一覧にデータを渡して画面表示
         return view('surveyanswer.index', compact('surveyItems', 'surveyanswers', 'surveyanswerdetails'));

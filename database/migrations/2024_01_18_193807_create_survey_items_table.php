@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('survey_items', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->text('type');
-            $table->text('order');
+            $table->integer('type');
+            $table->integer('order');
             $table->text('choices')->nullable();
             $table->timestamps();
             $table->softDeletes();
