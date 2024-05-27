@@ -15,6 +15,19 @@
       @csrf
       <div class="w-full flex flex-col">
         <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
+        <div class="flex mt-4 mb-2">
+          <div class="flex items-center mr-4">
+            <input type="radio" name="state" value="public" {{ old ('state') == 'public' ? 'checked' : '' }} >
+            <label class="ml-1">公開</label>
+          </div>
+          <div class="flex items-center">
+            <input type="radio" name="state" value="private" {{ old ('state') == 'private' ? 'checked' : '' }} >
+            <label class="ml-1">非公開</label>
+          </div>
+        </div>
+      </div>
+      <div class="w-full flex flex-col">
+        <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
         <input type="text" name="content" value="{{ old('content', $surveyitem->content) }}">
       </div>
 
