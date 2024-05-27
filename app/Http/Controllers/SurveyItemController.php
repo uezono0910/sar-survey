@@ -16,20 +16,6 @@ class SurveyItemController extends Controller
     public function index() {
         // surveyItemデータを取得して降順にソート
         $surveyItems = SurveyItem::orderBy('order', 'asc')->get();
-        // カラムtypeの数値を名前をつけて文字列に変換
-        foreach($surveyItems as $surveyItem){
-            if ($surveyItem['type'] == "1") {
-                $surveyItem['type'] = "テキストボックス";
-            } elseif($surveyItem['type'] == "2") {
-                $surveyItem['type'] = "テキストエリア";
-            } elseif($surveyItem['type'] == "3") {
-                $surveyItem['type'] = "セレクトボックス";
-            } elseif($surveyItem['type'] == "4") {
-                $surveyItem['type'] = "ラジオボタン";
-            } elseif($surveyItem['type'] == "5") {
-                $surveyItem['type'] = "チェックボックス";
-            }
-        }
 
         return view('surveyitem.index', compact('surveyItems'));
     }
@@ -43,11 +29,17 @@ class SurveyItemController extends Controller
     }
 
     public function store(Request $request, SurveyItem $surveyItem) {
+        // 状態を変換
+        $state = $request->input('state') === 'public' ? 0 : 1;
+        Log::debug('Converted state value: ' . $state);
+
         // Modelをインスタンス化
         $surveyItemModel = new SurveyItem();
 
         // insert
-        $surveyItemModel->fill($request->all())->save();
+        $surveyItemModel->fill($request->all());
+        $surveyItemModel->state = $state;
+        $surveyItemModel->save();
 
         // 一覧画面にリダイレクト
         return redirect()->route('surveyitem.index');
