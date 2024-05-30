@@ -31,15 +31,12 @@ class SurveyItemController extends Controller
     public function store(Request $request, SurveyItem $surveyItem) {
         // 状態を変換
         $state = $request->input('state') === 'public' ? 0 : 1;
-        Log::debug('Converted state value: ' . $state);
 
         // Modelをインスタンス化
         $surveyItemModel = new SurveyItem();
 
         // insert
-        $surveyItemModel->fill($request->all());
-        $surveyItemModel->state = $state;
-        $surveyItemModel->save();
+        $surveyItemModel->fill($request->all())->save();
 
         // 一覧画面にリダイレクト
         return redirect()->route('surveyitem.index');

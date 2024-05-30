@@ -10,41 +10,30 @@
     </div>
   @endif --}}
   <div class="max-w-7xl mx-auto px-40 py-12">
-    <form method="POST" action="{{ route('surveyitem.update', $surveyitem) }}">
+    <form method="POST" action="{{ route('survey.update', $survey) }}">
       @method('PUT')
       @csrf
-      <div class="w-full flex flex-col">
-        <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
-        <input type="text" name="content" value="{{ old('content', $surveyitem->content) }}">
-      </div>
-
-      <div class="w-full flex flex-col py-3">
-        <label for="type" class="font-somibold mt-4 mb-2">フォームタイプ</label>
-        <select class="w-80" name="type">
-          <option value="1" {{ $surveyitem->type == '1' ? 'selected' : '' }}>テキストボックス</option>
-          <option value="2" {{ $surveyitem->type == '2' ? 'selected' : '' }}>テキストエリア</option>
-          <option value="3" {{ $surveyitem->type == '3' ? 'selected' : '' }}>セレクトボックス</option>
-          <option value="4" {{ $surveyitem->type == '4' ? 'selected' : '' }}>ラジオボタン</option>
-          <option value="5" {{ $surveyitem->type == '5' ? 'selected' : '' }}>チェックボックス</option>
-        </select>
-      </div>
-      <div class="w-full flex flex-col py-3">
-        <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
-        <input type="text" name="choices" cols="20" wrap="soft" class="border border-gray-500" value="{{ old('choices', $surveyitem->choices) }}"/>
-      </div>
-      <div class="w-64 flex flex-col">
-        <label for="order" class="font-somibold mt-4 mb-2">表示順</label>
-        <div class="flex">
-          <input id="order" type="text" name="order" value="{{ old('order', $surveyitem->order) }}">
-          <div class="flex flex-col">
-            <div id="countUp" onclick="getCountUp()" class="ml-1 mb-1 text-xs leading-none text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400">
-            △
-            </div>
-            <div id="countDown" onclick="getCountDown()" class="ml-1 text-xs leading-none text-cente cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400">
-            ▽
-            </div>
-          </div>
+      <div class="flex mt-4 mb-2">
+        <div class="flex items-center mr-4">
+          <input type="radio" name="state" value="public" {{ old('state', $survey->state) == 'public' ? 'checked' : '' }}>
+          <label class="ml-1">公開</label>
         </div>
+        <div class="flex items-center">
+          <input type="radio" name="state" value="private" {{ old('state', $survey->state) == 'private' ? 'checked' : '' }}>
+          <label class="ml-1">非公開</label>
+        </div>
+      </div>
+      <div class="w-full flex flex-col my-3">
+        <label class="mt-4 mb-2">タイトル</label>
+        <input type="text" name="title" value="{{ old('title', $survey->title) }}" />
+      </div>
+      <div class="w-64 flex flex-col my-3">
+        <label class="mt-4 mb-2">日付</label>
+        <input name="date" type="date" value="{{ old('date', $survey->date) }}" />
+      </div>
+      <div class="flex flex-col my-3">
+        <label class="font-somibold mt-4 mb-2">備考</label>
+        <textarea name="note" class="min-h-11">{{ old('note', $survey->note) }}</textarea>
       </div>
       <div class="flex">
         <x-primary-button class="mt-8 mr-8">

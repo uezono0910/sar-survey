@@ -40,4 +40,9 @@ class SurveyItem extends Model
                 return $value;
         }
     }
+
+    public function setStateAttribute($value)
+    {
+        $this->attributes['state'] = $value == 'public' ? '0' : '1';
+    }
 }

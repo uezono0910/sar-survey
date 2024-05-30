@@ -17,11 +17,11 @@
         <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
         <div class="flex mt-4 mb-2">
           <div class="flex items-center mr-4">
-            <input type="radio" name="state" value="public" {{ old ('state') == 'public' ? 'checked' : '' }} >
+            <input type="radio" name="state" value="public" {{ old('state', $surveyitem->state) == 'public' ? 'checked' : '' }}>
             <label class="ml-1">公開</label>
           </div>
           <div class="flex items-center">
-            <input type="radio" name="state" value="private" {{ old ('state') == 'private' ? 'checked' : '' }} >
+            <input type="radio" name="state" value="private" {{ old('state', $surveyitem->state) == 'private' ? 'checked' : '' }}>
             <label class="ml-1">非公開</label>
           </div>
         </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="w-full flex flex-col py-3">
         <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
-        <input type="text" name="choices" cols="20" wrap="soft" class="border border-gray-500" value="{{ old('choices', $surveyitem->choices) }}"/>
+        <textarea name="choices" class="min-h-11" value="{{ old('choices', $surveyitem->choices) }}"></textarea>
       </div>
       <div class="w-64 flex flex-col">
         <label for="order" class="font-somibold mt-4 mb-2">表示順</label>

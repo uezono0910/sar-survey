@@ -44,19 +44,16 @@ class SurveyAnswerController extends Controller
         $surveyAnswerModel = new SurveyAnswer();
         $surveyAnswerModel->save();
 
-        // dd($request->all());
         // requestからキーを取得し代入
         $keys = array_keys($request->all());
         //　キーの数だけループさせる
         // #keys = ['_token','servey_1','servey_2','servey_3']
         foreach ($keys as $key) {
-            // dd($key);
             // requestのキーを1つ取得
             // キーに"surveyitem_"が存在するかチェック
             // 例：surveyitem_1
             $temp = strstr($key, 'surveyitem_');
             if ($temp !== false) {
-                // dd($temp);
                 // キーに"surveyitem_"が存在する場合
                 // 'surveyitem_'の以降の文字を取得してint型に変更
                 // surveyitem_1 => 1
@@ -67,37 +64,29 @@ class SurveyAnswerController extends Controller
                 $temp_answer = $request[$key];
                 // 値が配列かチェック
                 if (!is_array($temp_answer)) {
-                    // dd($temp_answer);
                     // 配列でない場合
                     // 値を文字列として回答用の変数に代入
                     $answer = $temp_answer;
                 } else {
                     // 配列（回答が複数選択）の場合
-                    // dd($temp_answer);
                     // foreach文を用いて、indexと要素を取り出す
                     $mult_answer = "";
                     foreach ($temp_answer as $index => $value) {
-                        // dd($value);
                         // 配列から1つ取得
                         // 配列の要素数を取得
                         $count = count($temp_answer) - 1;
-                        // dd($count);
                         if ($count !== $index){
                             // 配列の最後の要素でない場合
-                            // dd($index);
                             // 文字列に追加
                             $mult_answer .= $value. ",";
                         } else {
                             // 配列の最後の要素の場合
                             // 文字列に追加
                             $mult_answer .= $value;
-                            // dd($mult_answer);
-                            // return $mult_answer;
                             $answer = $mult_answer;
                         }
                     }
                 }
-                // dd($temp);
 
                 $surveyAnswerDetailModel = new SurveyAnswerDetail();
                 $surveyAnswerDetailModel->answer = $answer;

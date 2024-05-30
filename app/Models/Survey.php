@@ -5,12 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class survey extends Model
+class Survey extends Model
 {
     use HasFactory;
-    protected $table = 'survey';
+    protected $table = 'surveys';
     protected $fillable = [
+        'state',
         'date',
         'title',
+        'note',
     ];
+
+    public function getStateAttribute($value)
+    {
+        return $value == 0 ? 'public' : 'private';
+    }
+
+    public function setStateAttribute($value)
+    {
+        $this->attributes['state'] = $value == 'public' ? '0' : '1';
+    }
 }
