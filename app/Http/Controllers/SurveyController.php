@@ -19,9 +19,7 @@ class SurveyController extends Controller
         // surveyデータを取得して降順にソート
         $surveys = Survey::all()->sortByDesc('updated_at');
         $surveyItemsCount = SurveyItem::count();
-        // Log::debug($surveyItems);
         $surveyAnswersCount = surveyanswer::count();
-        // Log::debug($surveyAnswers);
         return view('survey.index', compact('surveys', 'surveyItemsCount', 'surveyAnswersCount'));
     }
 
@@ -37,22 +35,24 @@ class SurveyController extends Controller
     }
 
     public function store(Request $request, Survey $survey) {
-        // surveyModelをインスタンス化
-        $surveyModel = new Survey();
         // insert
-        $surveyModel->fill($request->all())->save();
-        // insertしたsurveyテーブルのidを取得
-        $surveyId = $surveyModel->id;
-        // 公開しているアンケート項目のidを取得
-        $surveyItemIds = SurveyItem::where('state', 'public')->pluck('id');
-        foreach ($surveyItemIds as $id) {
-            // surveyDetailModelをインスタンス化
-            $surveyDetailModel = new SurveyDetail();
-            $surveyDetailModel->survey_id = $surveyId;
-            $surveyDetailModel->survey_item_id = $id;
-            $surveyDetailModel->save();
-        }
+        $survey = Survey::create($request->all());
 
+        // 公開しているアンケート項目を取得
+        $surveyItems = SurveyItem::where('state', 'public')->get();
+
+        // insert
+        foreach ($surveyItems as $surveyItem) {
+            SurveyDetail::create([
+                'survey_id' => $survey->id,
+                'survey_item_id' => $surveyItem->id,
+                'state' => $surveyItem->state,
+                'content' => $surveyItem->content,
+                'type' => $surveyItem->type,
+                'order' => $surveyItem->order,
+                'choices' => $surveyItem->choices,
+            ]);
+        }
         // 一覧画面にリダイレクト
         return redirect()->route('survey.index');
         // ->with('message', '保存しました');

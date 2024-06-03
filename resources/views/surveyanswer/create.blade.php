@@ -13,36 +13,35 @@
     <x-message :message="session('message')" />
     <form method="POST" action="{{ route('surveyanswer.store') }}">
       @csrf
-
-      @foreach($surveyItems as $surveyItem)
+      @foreach($surveyDetails as $surveyDetail)
         <div class="mt-8">
           <div class="w-full flex flex-col py-3">
-            <label class="font-somibold mt-4 mb-4">{{ $survey->content }}</label>
-            <x-input-error :messages="$errors->get('body')" class="mt-2" />
-            @if($survey->type === 1)
-              <input class="ml-4" type="text" name="survey_{{ $survey->id }}" />
-            @elseif($survey->type === 2)
-              <textarea class="min-h-32 ml-4" name="survey_{{ $survey->id }}"></textarea>
-            @elseif($survey->type === 3)
-              <select class="w-1/2 ml-4" name="survey_{{ $survey->id }}">
-              @foreach (explode(",",$survey->choices) as $choice)
+            <label ■ class="font-somibold mt-4 mb-4">■ {{ $surveyDetail->content }}</label>
+            {{-- <x-input-error :messages="$errors->get('body')" class="mt-2" /> --}}
+            @if($surveyDetail->type == "テキストボックス")
+              <input class="ml-4" type="text" name="survey_{{ $surveyDetail->id }}" />
+            @elseif($surveyDetail->type == "テキストエリア")
+              <textarea class="min-h-32 ml-4" name="survey_{{ $surveyDetail->id }}"></textarea>
+            @elseif($surveyDetail->type == "セレクトボックス")
+              <select class="w-1/2 ml-4" name="survey_{{ $surveyDetail->id }}">
+              @foreach (explode(",",$surveyDetail->choices) as $choice)
                 <option>{{ $choice }}</option>
               @endforeach
               </select>
-            @elseif($survey->type === 4)
+            @elseif($surveyDetail->type == "ラジオボタン")
               <div class="flex flex-wrap ml-4">
-              @foreach (explode(",",$survey->choices) as $choice)
+              @foreach (explode(",",$surveyDetail->choices) as $choice)
                 <div class="mr-6">
-                  <input type="radio" name="surveyItem_{{ $surveyItem->id }}" value="{{$choice}}" />
+                  <input type="radio" name="survey_{{ $surveyDetail->id }}" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach
               </div>
-            @elseif($survey->type === 5)
+            @elseif($surveyDetail->type == "チェックボックス")
               <div class="flex flex-wrap ml-4">
-              @foreach (explode(",",$survey->choices) as $choice)
+              @foreach (explode(",",$surveyDetail->choices) as $choice)
                 <div class="mr-6">
-                  <input type="checkbox" name="surveyitem_{{ $surveyitem->id }}[]" value="{{$choice}}" />
+                  <input type="checkbox" name="survey_{{ $surveyDetail->id }}[]" value="{{$choice}}" />
                   <label>{{ $choice }}</label>
                 </div>
               @endforeach

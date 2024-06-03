@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use App\Models\SurveyItem;
+use App\Models\SurveyDetail;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyAnswerDetail;
 use GuzzleHttp\Psr7\Message;
@@ -19,28 +20,26 @@ class SurveyAnswerController extends Controller
     public function index() {
         // SurveyItemデータをすべて取得
         $surveyItems = SurveyItem::all();
-        $surveyanswers = surveyanswer::all()->sortByDesc('updated_at');
-        $surveyanswerdetails = surveyanswer::query()
+        $surveyAnswers = SurveyAnswer::all()->sortByDesc('updated_at');
+        $surveyAnswerDetails = SurveyAnswer::query()
             ->join('survey_answer_details', 'survey_answers.id', '=', 'survey_answer_details.survey_answer_id')
             ->get();
 
         Gate::authorize('auth');
         // アンケート一覧にデータを渡して画面表示
-        return view('surveyanswer.index', compact('surveyItems', 'surveyanswers', 'surveyanswerdetails'));
+        return view('surveyanswer.index', compact('surveyItems', 'surveyAnswers', 'surveyAnswerDetails'));
     }
 
     public function show (SurveyAnswer $surveyanswer) {
-        return view('surveyanswer.show', compact('surveyanswers'));
+        return view('surveyanswer.show', compact('surveyAnswers'));
     }
 
     public function create() {
-        $surveyItems = SurveyItem::orderBy('order', 'asc')->get();
-        // Log::debug($surveyitems);
-        return view('surveyanswer.create', compact('surveyItems'));
+        $surveyDetails = SurveyDetail::all();
+        return view('surveyanswer.create', compact('surveyDetails'));
     }
 
     public function store(Request $request, SurveyAnswer $surveyanswer) {
-        // dd($request->all());
         $surveyAnswerModel = new SurveyAnswer();
         $surveyAnswerModel->save();
 
@@ -50,14 +49,14 @@ class SurveyAnswerController extends Controller
         // #keys = ['_token','servey_1','servey_2','servey_3']
         foreach ($keys as $key) {
             // requestのキーを1つ取得
-            // キーに"surveyitem_"が存在するかチェック
-            // 例：surveyitem_1
-            $temp = strstr($key, 'surveyitem_');
+            // キーに"survey_"が存在するかチェック
+            // 例：survey_1
+            $temp = strstr($key, 'survey_');
             if ($temp !== false) {
-                // キーに"surveyitem_"が存在する場合
-                // 'surveyitem_'の以降の文字を取得してint型に変更
-                // surveyitem_1 => 1
-                $surveyItemId =intval(mb_substr($temp, 7));
+                // キーに"survey_"が存在する場合
+                // 'survey_'の以降の文字を取得してint型に変更
+                // survey_1 => 1
+                $surveyDetailId =intval(mb_substr($temp, 7));
                 // 回答用の変数（文字列）を作成
                 $answer = "";
                 // requestの値を取得
@@ -90,7 +89,7 @@ class SurveyAnswerController extends Controller
 
                 $surveyAnswerDetailModel = new SurveyAnswerDetail();
                 $surveyAnswerDetailModel->answer = $answer;
-                $surveyAnswerDetailModel->surveyitem_id = $surveyItemId;
+                $surveyAnswerDetailModel->survey_detail_id = $surveyDetailId;
                 $surveyAnswerDetailModel->survey_answer_id = $surveyAnswerModel->id;
                 $surveyAnswerDetailModel->save();
             }

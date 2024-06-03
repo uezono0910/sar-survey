@@ -22,6 +22,11 @@ class SurveyItem extends Model
         return $value == 0 ? 'public' : 'private';
     }
 
+    public function setStateAttribute($value)
+    {
+        $this->attributes['state'] = $value == 'public' ? '0' : '1';
+    }
+
     public function getTypeAttribute($value)
     {
         // カラムtypeの数値を名前をつけて文字列に変換
@@ -41,8 +46,27 @@ class SurveyItem extends Model
         }
     }
 
-    public function setStateAttribute($value)
+    public function setTypeAttribute($value)
     {
-        $this->attributes['state'] = $value == 'public' ? '0' : '1';
+        switch ($value) {
+            case "テキストボックス":
+                $this->attributes['type'] = 1;
+                break;
+            case "テキストエリア":
+                $this->attributes['type'] = 2;
+                break;
+            case "セレクトボックス":
+                $this->attributes['type'] = 3;
+                break;
+            case "ラジオボタン":
+                $this->attributes['type'] = 4;
+                break;
+            case "チェックボックス":
+                $this->attributes['type'] = 5;
+                break;
+            default:
+                $this->attributes['type'] = $value;
+                break;
+        }
     }
 }
