@@ -10,22 +10,11 @@ class SurveyItem extends Model
     use SoftDeletes;
     protected $table = 'survey_items';
     protected $fillable = [
-        'state',
         'content',
         'type',
         'choices',
         'order',
     ];
-
-    public function getStateAttribute($value)
-    {
-        return $value == 0 ? 'public' : 'private';
-    }
-
-    public function setStateAttribute($value)
-    {
-        $this->attributes['state'] = $value == 'public' ? '0' : '1';
-    }
 
     public function getTypeAttribute($value)
     {

@@ -29,8 +29,6 @@ class SurveyItemController extends Controller
     }
 
     public function store(Request $request, SurveyItem $surveyItem) {
-        // 状態を変換
-        $state = $request->input('state') === 'public' ? 0 : 1;
 
         // Modelをインスタンス化
         $surveyItemModel = new SurveyItem();

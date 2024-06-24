@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
-            $table->integer('state');
             $table->date('date');
             $table->text('title');
             $table->text('note')->nullable();

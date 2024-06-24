@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight overflow-x-scroll">
-        アンケート一覧
+        アンケート項目一覧
       </h2>
   </x-slot>
   <div class="px-12 py-12">
@@ -9,7 +9,6 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-            <th class="whitespace-nowrap">状態</th>
             <th class="whitespace-nowrap">表示順</th>
             <th class="whitespace-nowrap">質問内容</th>
             <th class="whitespace-nowrap">フォームタイプ</th>
@@ -21,11 +20,6 @@
         <tbody class="bg-white">
           @foreach ($surveyItems as $surveyItem)
             <tr>
-            @if ($surveyItem->state === 'public')
-              <td>公開</td>
-            @else
-              <td>非公開</td>
-            @endif
               <td>{{ $surveyItem->order }}</td>
               <td class="min-w-80">{{ $surveyItem->content }}</td>
               <td>{{ $surveyItem->type }}</td>

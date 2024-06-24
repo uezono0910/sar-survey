@@ -9,11 +9,11 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-            <th class="whitespace-nowrap">状態</th>
             <th class="whitespace-nowrap">公開日</th>
             <th class="whitespace-nowrap">タイトル</th>
             <th class="whitespace-nowrap">項目数</th>
             <th class="whitespace-nowrap">回答数</th>
+            <th class="whitespace-nowrap">URL</th>
             <th class="whitespace-nowrap">備考</th>
             <th class="whitespace-nowrap">プレビュー</th>
             <th class="whitespace-nowrap">回答詳細</th>
@@ -24,15 +24,11 @@
         <tbody class="bg-white">
           @foreach ($surveys as $survey)
             <tr>
-              @if ($survey->state == 'public')
-                <td>公開</td>
-              @else
-                <td>非公開</td>
-              @endif
               <td>{{ $survey->date }}</td>
               <td class="min-w-40">{{ $survey->title }}</td>
               <td>{{ $surveyItemsCount }}</td>
               <td>{{ $surveyAnswersCount }}</td>
+              <td><a class="text-blue-500 hover:text-blue-700" href="{{ route('surveyanswer.answer', ['surveyanswer'=>$survey->id]) }}">{{ route('surveyanswer.answer', ['surveyanswer'=>$survey->id]) }}</a></td>
               <td class="min-w-80">{{ $survey->note }}</td>
               <td class="flex justify-center"><div class="text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400 ease-in duration-300 "><a href="{{ route('survey.show', $survey->id) }}" target="_blank">プレビュー</a></div></td>
               <td><a class="m-auto" href="{{ route('survey.show', ['survey'=>$survey->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAWklEQVR4nO2VwQkAIQwEpzz7LyFXyN5HQVA5JCrCZUAQIjuPkAjBBAl4ADmP5awGWxCuStJQil40yjkqUOeuj7e6SuBBVwgUPSB6wC/nwHav67RIYqMPJ6DHC6Jsv3ofzjEAAAAAAElFTkSuQmCC"></a></td>

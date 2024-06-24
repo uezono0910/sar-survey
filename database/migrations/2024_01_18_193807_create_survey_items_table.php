@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('survey_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('state');
             $table->text('content');
             $table->integer('type');
             $table->integer('order');
