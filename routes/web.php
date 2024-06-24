@@ -36,7 +36,7 @@ Route::middleware('admin')->group(function() {
     Route::resource('surveyitem', SurveyItemController::class);
     Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
     Route::get('surveyanswer/{surveyanswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
-    Route::get('surveyanswer/{survey_date}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.answer');
+    Route::get('surveyanswer/{surveyanswer}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.answer');
     Route::get('surveyanswer/{surveyanswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
     Route::patch('surveyanswer/{surveyanswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
     Route::delete('surveyanswer/{surveyanswer}', [SurveyAnswerController::class, 'destroy'])->name('surveyanswer.destroy');
