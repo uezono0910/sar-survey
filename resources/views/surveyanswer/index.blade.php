@@ -16,17 +16,17 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          @foreach ($surveyanswers as $surveyanswer)
+          @foreach ($surveyAnswers as $surveyAnswer)
             <tr>
-              <td class="whitespace-nowrap p-2 text-left">{{ $surveyanswer->created_at }}</td>
-              @foreach($surveyItem as $surveyItem)
-                <td>
-                @foreach ($surveyanswerdetails as $surveyanswerdetail)
-                    @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
-                      {{ $surveyanswerdetail->answer }}
-                    @endif
+              <td class="whitespace-nowrap p-2 text-left">{{ $surveyAnswer->created_at }}</td>
+              @foreach($surveyItems as $surveyItem)
+              <td>
+                @foreach ($surveyAnswerDetails as $surveyAnswerDetail)
+                  @if ($surveyAnswer->id == $surveyAnswerDetail->survey_answer_id && $surveyItem->id == $surveyAnswerDetail->survey_item_id)
+                    {{ $surveyAnswerDetail->answer }}
+                  @endif
                 @endforeach
-                </td>
+              </td>
               @endforeach
             </tr>
           @endforeach

@@ -30,7 +30,7 @@
                                 {{ __('アンケート一覧') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('survey.create')">
-                                {{ __('アンケートスケジュール登録') }}
+                                {{ __('アンケートフォーム登録') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('surveyitem.index')">
                                 {{ __('アンケート項目一覧') }}

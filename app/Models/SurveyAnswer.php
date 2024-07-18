@@ -11,5 +11,6 @@ class SurveyAnswer extends Model
     protected $table = 'survey_answers';
     protected $fillable = [
         'id',
+        'survey_id',
     ];
 }

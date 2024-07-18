@@ -45,9 +45,9 @@ class SurveyItemController extends Controller
         return view('surveyitem.edit', compact('surveyitem'));
     }
 
-    public function update(Request $request, SurveyItem $surveyitem) {
+    public function update(Request $request, SurveyItem $surveyItem) {
 
-        $surveyitem->update($request->all());
+        $surveyItem->update($request->all());
         // // $request->session()->flash('message', '更新しました');
         return redirect()->route('surveyitem.index');
     }

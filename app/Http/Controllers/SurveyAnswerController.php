@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
+use App\Models\Survey;
 use App\Models\SurveyItem;
 use App\Models\SurveyDetail;
 use App\Models\SurveyAnswer;
@@ -18,30 +19,37 @@ use Carbon\Carbon;
 class SurveyAnswerController extends Controller
 {
     public function index() {
-        // SurveyItemデータをすべて取得
+        $surveys = Survey::all();
         $surveyItems = SurveyItem::all();
         $surveyAnswers = SurveyAnswer::all()->sortByDesc('updated_at');
-        $surveyAnswerDetails = SurveyAnswer::query()
-            ->join('survey_answer_details', 'survey_answers.id', '=', 'survey_answer_details.survey_answer_id')
+        $surveyAnswerDetails = SurveyAnswerDetail::query()
+            ->join('survey_details', 'survey_answer_details.survey_detail_id', '=', 'survey_details.id')
             ->get();
 
         Gate::authorize('auth');
         // アンケート一覧にデータを渡して画面表示
-        return view('surveyanswer.index', compact('surveyItems', 'surveyAnswers', 'surveyAnswerDetails'));
+        return view('surveyanswer.index', compact('surveys', 'surveyItems', 'surveyAnswers', 'surveyAnswerDetails'));
     }
 
-    public function show (SurveyAnswer $surveyanswer) {
-        return view('surveyanswer.show', compact('surveyAnswers'));
+    public function show (SurveyAnswer $surveyAnswer) {
+        return view('surveyanswer.show', compact('surveyAnswers', 'survey'));
     }
 
     public function create() {
+        $survey = Survey::all();
         $surveyDetails = SurveyDetail::all();
-        return view('surveyanswer.create', compact('surveyDetails'));
+        return view('surveyanswer.create', compact('surveyDetails', 'survey'));
     }
 
-    public function store(Request $request, SurveyAnswer $surveyanswer) {
-        $surveyAnswerModel = new SurveyAnswer();
-        $surveyAnswerModel->save();
+    public function answer(Survey $survey) {
+        $surveyDetails = SurveyDetail::where('survey_id', $survey->id)->get();
+        return view('surveyanswer.create', compact('survey', 'surveyDetails'));
+    }
+
+    public function store(Request $request, SurveyAnswer $surveyAnswer, Survey $survey) {
+        $surveyAnswerModel = SurveyAnswer::create([
+            'survey_id' => $survey['id'],
+        ]);
 
         // requestからキーを取得し代入
         $keys = array_keys($request->all());
@@ -51,12 +59,12 @@ class SurveyAnswerController extends Controller
             // requestのキーを1つ取得
             // キーに"survey_"が存在するかチェック
             // 例：survey_1
-            $temp = strstr($key, 'survey_');
+            $temp = strstr($key, 'surveyDetail_');
             if ($temp !== false) {
                 // キーに"survey_"が存在する場合
                 // 'survey_'の以降の文字を取得してint型に変更
                 // survey_1 => 1
-                $surveyDetailId =intval(mb_substr($temp, 7));
+                $surveyDetailId = intval(mb_substr($temp, 13));
                 // 回答用の変数（文字列）を作成
                 $answer = "";
                 // requestの値を取得
@@ -99,11 +107,11 @@ class SurveyAnswerController extends Controller
         return view('surveyanswer.complete');
     }
 
-    public function edit(SurveyAnswer $surveyanswer) {
+    public function edit(SurveyAnswer $surveyAnswer) {
         return view('surveyanswer.edit', compact('surveyanswer'));
     }
 
-    public function update(Request $request, SurveyAnswer $surveyanswer) {
+    public function update(Request $request, SurveyAnswer $surveyAnswer) {
     //     $validated = $request->validate([
     //         'title' => 'required|max:20',
     //         'body' => 'required|max:400',
@@ -117,7 +125,7 @@ class SurveyAnswerController extends Controller
         // return redirect()->route('surveyanswer.show', compact('surveyanswer'));
     }
 
-    public function destroy(Request $request, SurveyAnswer $surveyanswer) {
+    public function destroy(Request $request, SurveyAnswer $surveyAnswer) {
         // $surveyanswer->delete();
         // $request->session()->flash('message', '削除しました');
         // return redirect()->route('surveyanswer.index');

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('date');
             $table->text('title');
             $table->text('note')->nullable();
+            $table->text('url');
             $table->timestamps();
         });
     }

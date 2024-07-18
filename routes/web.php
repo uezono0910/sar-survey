@@ -34,16 +34,16 @@ Route::middleware('auth')->group(function () {
 Route::middleware('admin')->group(function() {
     Route::resource('survey', SurveyController::class);
     Route::resource('surveyitem', SurveyItemController::class);
-    Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
-    Route::get('surveyanswer/{surveyanswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
-    Route::get('surveyanswer/{surveyanswer}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.answer');
-    Route::get('surveyanswer/{surveyanswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
-    Route::patch('surveyanswer/{surveyanswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
-    Route::delete('surveyanswer/{surveyanswer}', [SurveyAnswerController::class, 'destroy'])->name('surveyanswer.destroy');
-    // Route::match(['put', 'patch'], 'surveyitem/{surveyitem}/update', [SurveyItemController::class, 'update'])->name('surveyitem.update');
+    Route::get('surveyanswer/{surveyAnswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
+    Route::get('surveyanswer/{surveyAnswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
+    Route::patch('surveyanswer/{surveyAnswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
+    Route::delete('surveyanswer/{surveyAnswer}', [SurveyAnswerController::class, 'destroy'])->name('surveyanswer.destroy');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
 });
+
+Route::get('survey/{survey}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.create');
+Route::post('survey/{survey}/answer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
 
 Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
 

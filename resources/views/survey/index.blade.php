@@ -28,7 +28,7 @@
               <td class="min-w-40">{{ $survey->title }}</td>
               <td>{{ $surveyItemsCount }}</td>
               <td>{{ $surveyAnswersCount }}</td>
-              <td><a class="text-blue-500 hover:text-blue-700" href="{{ route('surveyanswer.answer', ['surveyanswer'=>$survey->id]) }}">{{ route('surveyanswer.answer', ['surveyanswer'=>$survey->id]) }}</a></td>
+              <td><a class="text-blue-500 hover:text-blue-700" href="{{ $survey->url }}" target=”_blank”>{{ $survey->url }}</a></td>
               <td class="min-w-80">{{ $survey->note }}</td>
               <td class="flex justify-center"><div class="text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400 ease-in duration-300 "><a href="{{ route('survey.show', $survey->id) }}" target="_blank">プレビュー</a></div></td>
               <td><a class="m-auto" href="{{ route('survey.show', ['survey'=>$survey->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAWklEQVR4nO2VwQkAIQwEpzz7LyFXyN5HQVA5JCrCZUAQIjuPkAjBBAl4ADmP5awGWxCuStJQil40yjkqUOeuj7e6SuBBVwgUPSB6wC/nwHav67RIYqMPJ6DHC6Jsv3ofzjEAAAAAAElFTkSuQmCC"></a></td>

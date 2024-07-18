@@ -13,6 +13,7 @@ class Survey extends Model
         'date',
         'title',
         'note',
+        'url',
     ];
 
     public function getStateAttribute($value)

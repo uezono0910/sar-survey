@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          アンケート編集
+          アンケートフォーム編集
       </h2>
   </x-slot>
   {{-- @if (session('message'))
@@ -13,16 +13,6 @@
     <form method="POST" action="{{ route('survey.update', $survey) }}">
       @method('PUT')
       @csrf
-      <div class="flex mt-4 mb-2">
-        <div class="flex items-center mr-4">
-          <input type="radio" name="state" value="public" {{ old('state', $survey->state) == 'public' ? 'checked' : '' }}>
-          <label class="ml-1">公開</label>
-        </div>
-        <div class="flex items-center">
-          <input type="radio" name="state" value="private" {{ old('state', $survey->state) == 'private' ? 'checked' : '' }}>
-          <label class="ml-1">非公開</label>
-        </div>
-      </div>
       <div class="w-full flex flex-col my-3">
         <label class="mt-4 mb-2">タイトル</label>
         <input type="text" name="title" value="{{ old('title', $survey->title) }}" />

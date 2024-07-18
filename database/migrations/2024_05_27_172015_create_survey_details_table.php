@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('survey_id');
             $table->integer('survey_item_id');
-            $table->integer('state');
+            $table->integer('state')->nullable();
             $table->text('content');
             $table->integer('type');
             $table->integer('order');
