@@ -18,11 +18,17 @@ class SurveyController extends Controller
     public function index() {
         // surveyデータを取得して降順にソート
         $surveys = Survey::all()->sortByDesc('updated_at');
-        $surveyItemsCount = SurveyItem::count();
+        $surveyDetails = SurveyDetail::all();
         $surveyAnswersCount = SurveyAnswer::count();
+        // 各surveyのsurveyDetailをカウント
+        $surveyDetailCounts = [];
+        foreach ($surveys as $survey) {
+            $surveyDetailCounts[$survey->id] = $surveyDetails->where('survey_id', $survey->id)->count();
+        }
+        // dd($surveyDetailCounts);
         // 現在のURLを取得
         $currentUrl = url()->current();
-        return view('survey.index', compact('surveys', 'surveyItemsCount', 'surveyAnswersCount', 'currentUrl'));
+        return view('survey.index', compact('surveys', 'surveyDetails', 'surveyAnswersCount','surveyDetailCounts', 'currentUrl'));
     }
 
     public function show (Survey $survey) {
