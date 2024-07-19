@@ -13,7 +13,6 @@ class SurveyItem extends Model
         'content',
         'type',
         'choices',
-        'order',
     ];
 
     public function getTypeAttribute($value)

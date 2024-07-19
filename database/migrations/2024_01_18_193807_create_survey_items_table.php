@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->integer('type');
-            $table->integer('order');
             $table->text('choices')->nullable();
             $table->timestamps();
             $table->softDeletes();

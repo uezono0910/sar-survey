@@ -26,7 +26,7 @@
         <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
         <textarea name="choices" class="min-h-11"></textarea>
       </div>
-      <div class="w-64 flex flex-col">
+      {{-- <div class="w-64 flex flex-col">
         <label for="order" class="font-somibold mt-4 mb-2">表示順</label>
         <div class="flex">
           <input id="order" type="text" name="order" />
@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div> --}}
         <x-primary-button class="mt-8">
           登録する
         </x-primary-button>
