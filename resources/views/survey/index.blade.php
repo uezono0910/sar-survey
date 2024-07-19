@@ -26,7 +26,7 @@
             <tr>
               <td>{{ $survey->date }}</td>
               <td class="min-w-40">{{ $survey->title }}</td>
-              <td>{{ $surveyItemsCount }}</td>
+              <td>{{ $surveyDetailCounts[$survey->id] }}</td>
               <td>{{ $surveyAnswersCount }}</td>
               <td><a class="text-blue-500 hover:text-blue-700" href="{{ $survey->url }}" target=”_blank”>{{ $survey->url }}</a></td>
               <td class="min-w-80">{{ $survey->note }}</td>
@@ -51,6 +51,7 @@
     </x-primary-button>
   </div> --}}
 </x-app-layout>
+
 <style>
 th, td {
   border: solid .5px #d3d3d3;
