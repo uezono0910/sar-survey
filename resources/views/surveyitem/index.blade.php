@@ -9,7 +9,6 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-            <th class="whitespace-nowrap">表示順</th>
             <th class="whitespace-nowrap">質問内容</th>
             <th class="whitespace-nowrap">フォームタイプ</th>
             <th class="whitespace-nowrap">選択肢</th>
@@ -20,7 +19,6 @@
         <tbody class="bg-white">
           @foreach ($surveyItems as $surveyItem)
             <tr>
-              <td>{{ $surveyItem->order }}</td>
               <td class="min-w-80">{{ $surveyItem->content }}</td>
               <td>{{ $surveyItem->type }}</td>
               <td class="min-w-80">{{ $surveyItem->choices }}</td>
