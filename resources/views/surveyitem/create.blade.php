@@ -5,7 +5,7 @@
       </h2>
   </x-slot>
   <div class="max-w-7xl mx-auto px-40 py-12">
-    <form method="POST" action="{{ route('surveyitem.index') }}">
+    <form method="POST" action="{{ route('surveyitem.store') }}">
       @csrf
       <div class="w-full flex flex-col">
         <label for="content" class="font-somibold mt-4 mb-2">質問内容</label>
@@ -26,21 +26,6 @@
         <label for="choices" class="font-somibold mt-4 mb-2">複数選択肢を設定する場合は、カンマ区切りで選択肢を記入</label>
         <textarea name="choices" class="min-h-11"></textarea>
       </div>
-      {{-- <div class="w-64 flex flex-col">
-        <label for="order" class="font-somibold mt-4 mb-2">表示順</label>
-        <div class="flex">
-          <input id="order" type="text" name="order" />
-          <div class="flex flex-col">
-            <div id="countUp" onclick="getCountUp()" class="ml-1 mb-1 text-xs leading-none text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400">
-            △
-            </div>
-            <div id="countDown" onclick="getCountDown()" class="ml-1 text-xs leading-none text-cente cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400">
-            ▽
-            </div>
-          </div>
-        </div>
-      </div>
-      <div> --}}
         <x-primary-button class="mt-8">
           登録する
         </x-primary-button>
@@ -48,37 +33,3 @@
     </form>
   </div>
 </x-app-layout>
-
-<script>
-// フォーム要素を取得
-let inputElement = document.getElementById('order');
-let inputValue = inputElement.value;
-if (inputValue == "") {
-  inputValue = 0;
-}
-// input要素にイベントのリスナーを追加
-function setupInputListener(inputElement) {
-  inputElement.addEventListener('input', function() {
-    // 入力が変更されるたびに実行される処理
-    inputValue = inputElement.value;
-    if (inputValue == "") {
-      inputValue = 0;
-    }
-  });
-}
-// 順番の数値を増やす
-function getCountUp($countUp){
-  let inputValue = Number(inputElement.value);
-  inputValue = inputValue + 1;
-  document.getElementById( "order" ).value = inputValue ;
-}
-
-// 順番の数値を減らす
-function getCountDown($countDown){
-  let inputValue = Number(inputElement.value);
-  if (inputValue > 1) {
-    inputValue = inputValue - 1;
-    document.getElementById( "order" ).value = inputValue ;
-  }
-}
-</script>

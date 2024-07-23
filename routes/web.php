@@ -42,9 +42,7 @@ Route::middleware('admin')->group(function() {
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
 });
 
-Route::get('survey/{survey}/answer', [SurveyAnswerController::class, 'answer'])->name('surveyanswer.create');
+Route::get('survey/{survey}/answer', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
 Route::post('survey/{survey}/answer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
-
-Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
 
 require __DIR__.'/auth.php';

@@ -35,14 +35,8 @@ class SurveyAnswerController extends Controller
         return view('surveyanswer.show', compact('surveyAnswers', 'survey'));
     }
 
-    public function create() {
-        $survey = Survey::all();
-        $surveyDetails = SurveyDetail::all();
-        return view('surveyanswer.create', compact('surveyDetails', 'survey'));
-    }
-
-    public function answer(Survey $survey) {
-        $surveyDetails = SurveyDetail::where('survey_id', $survey->id)->get();
+    public function create(Survey $survey) {
+        $surveyDetails = SurveyDetail::where('survey_id', $survey->id)->orderBy('order', 'asc')->get();
         return view('surveyanswer.create', compact('survey', 'surveyDetails'));
     }
 

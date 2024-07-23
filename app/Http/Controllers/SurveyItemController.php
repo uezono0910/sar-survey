@@ -15,7 +15,7 @@ class SurveyItemController extends Controller
 {
     public function index() {
         // surveyItemデータを取得して降順にソート
-        $surveyItems = SurveyItem::orderBy('order', 'asc')->get();
+        $surveyItems = SurveyItem::all();
 
         return view('surveyitem.index', compact('surveyItems'));
     }

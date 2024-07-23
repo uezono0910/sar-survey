@@ -1,63 +1,78 @@
 <x-app-layout>
-  <x-slot name="header">
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          アンケートフォーム登録
-      </h2>
-  </x-slot>
-  <div class="max-w-7xl mx-auto sm:px-40 py-12">
-    <form method="POST" action="{{ route('survey.index') }}">
-      @csrf
-      <div class="w-full flex flex-col my-3">
-        <label class="mt-4 mb-2">タイトル</label>
-        <input type="text" name="title" />
-      </div>
-      <div class="w-64 flex flex-col my-3">
-        <label class="mt-4 mb-2">日付</label>
-        <input name="date" type="date" />
-      </div>
-      <div class="flex flex-col my-3">
-        <label class="font-somibold mt-4 mb-2">備考</label>
-        <textarea name="note" class="min-h-11"></textarea>
-      </div>
-      <div>
-        <x-primary-button class="mt-8">
-          登録する
-        </x-primary-button>
-      </div>
-    </form>
-  </div>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            アンケートフォーム登録
+        </h2>
+    </x-slot>
+    <div class="max-w-7xl mx-auto sm:px-40 py-12">
+        <form method="POST" action="{{ route('survey.store') }}">
+            @csrf
+            <div class="w-full flex flex-col my-3">
+                <label class="mt-4 mb-2">タイトル</label>
+                <input type="text" name="title" value="{{ old('title') }}" />
+            </div>
+            <div class="w-64 flex flex-col my-3">
+                <label class="mt-4 mb-2">日付</label>
+                <input name="date" type="date" value="{{ old('date') }}" />
+            </div>
+            <div class="w-64 flex flex-col my-3">
+                <label class="mt-4 mb-2">アンケート項目</label>
+                <!-- Button to trigger modal -->
+                <button type="button" id="openModalButton" class="bg-blue-500 text-white px-4 py-2 rounded">アンケート項目を選択</button>
+                <div id="surveyItemsContainer"></div>
+            </div>
+            <div class="flex flex-col my-3">
+                <label class="font-somibold mt-4 mb-2">備考</label>
+                <textarea name="note" class="min-h-11">{{ old('note') }}</textarea>
+            </div>
+            <div>
+                <x-primary-button class="mt-8">
+                    登録する
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
+    <!-- Modal -->
+    @include('components.surveydetail', ['surveyItems' => $surveyItems])
 </x-app-layout>
 
 <script>
-
-// フォーム要素を取得
-let inputElement = document.getElementById('order');
-let inputValue = inputElement.value;
-
-// 表示順のフォームの値を取得
-function setupInputListener(inputElement) {
-  inputElement.addEventListener('input', function() {
-    // 入力が変更されるたびに実行
-    inputValue = inputElement.value;
-    if (inputValue == "") {
-      inputValue = 0;
-    }
+  document.getElementById('openModalButton').addEventListener('click', function(event) {
+      event.preventDefault();  // デフォルトのフォーム送信を防ぐ
+      document.getElementById('myModal').classList.remove('hidden');
   });
-}
-// 順番の数値を増やす
-function getCountUp($countUp){
-  let inputValue = Number(inputElement.value);
-  inputValue = inputValue + 1;
-  document.getElementById( "order" ).value = inputValue ;
-}
+  document.getElementById('closeModalButton').addEventListener('click', function(event) {
+      event.preventDefault();  // デフォルトのフォーム送信を防ぐ
+      document.getElementById('myModal').classList.add('hidden');
+  });
 
-// 順番の数値を減らす
-function getCountDown($countDown){
-  let inputValue = Number(inputElement.value);
-  if (inputValue > 1) {
-    inputValue = inputValue - 1;
-    document.getElementById( "order" ).value = inputValue ;
-  }
-}
+  document.getElementById('saveSurveyItemsButton').addEventListener('click', function(event) {
+      event.preventDefault();  // デフォルトのフォーム送信を防ぐ
 
+      const checkboxes = document.querySelectorAll('input[name="surveyItems[]"]:checked');
+      const surveyItemsContainer = document.getElementById('surveyItemsContainer');
+      surveyItemsContainer.innerHTML = '';  // 既存の項目をクリア
+
+      checkboxes.forEach((cb, index) => {
+          const id = cb.value;
+          const orderInput = document.querySelector(`input[name="order[${id}]"]`);
+          const order = orderInput ? orderInput.value : '';
+
+          // hiddenフィールドを追加して選択されたアンケート項目のIDと順序を格納
+          const hiddenInputId = document.createElement('input');
+          hiddenInputId.type = 'hidden';
+          hiddenInputId.name = `items[${index + 1}][id]`;
+          hiddenInputId.value = id;
+
+          const hiddenInputOrder = document.createElement('input');
+          hiddenInputOrder.type = 'hidden';
+          hiddenInputOrder.name = `items[${index + 1}][order]`;
+          hiddenInputOrder.value = order;
+
+          surveyItemsContainer.appendChild(hiddenInputId);
+          surveyItemsContainer.appendChild(hiddenInputOrder);
+      });
+
+      document.getElementById('myModal').classList.add('hidden');
+  });
 </script>

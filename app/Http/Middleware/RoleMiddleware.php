@@ -21,6 +21,6 @@ class RoleMiddleware
         if (Auth::check() && Auth::user() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-        return redirect()->route('surveyanswer.create');
+        return redirect()->route('login');
     }
 }

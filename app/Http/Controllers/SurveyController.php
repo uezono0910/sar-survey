@@ -39,20 +39,21 @@ class SurveyController extends Controller
     }
 
     public function create() {
-        return view('survey.create');
+        $surveyItems = SurveyItem::all();
+        return view('survey.create', compact('surveyItems'));
     }
 
     public function store(Request $request, Survey $survey) {
-
-        //  アンケートフォームのURLを作成
+        // $validatedData = $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'date' => 'required|date',
+        //     'items' => 'required|string',  // itemsはJSON形式で送信されるためstringとする
+        //     'note' => 'nullable|string',
+        // ]);
+        // dd($request);
+        // アンケートフォームのURLを作成
         // surveyテーブルの最後のidを取得
-        $lastRecord = Survey::orderBy('id', 'desc')->first();
-        // dd($lastRecord);
-        if ($lastRecord == null) {
-            $lastRecordId = 0;
-        } else {
-            $lastRecordId = $lastRecord->id;
-        }
+        $lastRecordId = Survey::max('id') ?? 0;
         $urlId = $lastRecordId + 1;
         $surveyUrl = "survey/{$urlId}/answer";
 
@@ -61,23 +62,26 @@ class SurveyController extends Controller
         $survey->url = $surveyUrl;
         $survey->save();
 
-        // 公開しているアンケート項目を取得
-        $surveyItems = SurveyItem::all();
+        $items = $request->input('items', []);
+        // itemのidを取得し配列に格納
+        foreach ($items as $item) {
+            $itemId = $item['id'];
+            $order = $item['order'];
+            $surveyItem = SurveyItem::where('id', $itemId)->first();
 
-        // insert
-        foreach ($surveyItems as $surveyItem) {
+            // insert
             SurveyDetail::create([
                 'survey_id' => $survey->id,
                 'survey_item_id' => $surveyItem->id,
+                'order' => $order,
                 'content' => $surveyItem->content,
                 'type' => $surveyItem->type,
-                'order' => $surveyItem->order,
                 'choices' => $surveyItem->choices,
             ]);
         }
+
         // 一覧画面にリダイレクト
-        return redirect()->route('survey.index');
-        // ->with('message', '保存しました');
+        return redirect()->route('survey.index')->with('message', '保存しました');
     }
 
     public function edit(Survey $survey) {
