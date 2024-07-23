@@ -50,7 +50,6 @@ class SurveyController extends Controller
         //     'items' => 'required|string',  // itemsはJSON形式で送信されるためstringとする
         //     'note' => 'nullable|string',
         // ]);
-        // dd($request);
         // アンケートフォームのURLを作成
         // surveyテーブルの最後のidを取得
         $lastRecordId = Survey::max('id') ?? 0;
@@ -67,7 +66,7 @@ class SurveyController extends Controller
         foreach ($items as $item) {
             $itemId = $item['id'];
             $order = $item['order'];
-            $surveyItem = SurveyItem::where('id', $itemId)->first();
+            $surveyItem = SurveyItem::find($itemId);
 
             // insert
             SurveyDetail::create([
@@ -85,13 +84,40 @@ class SurveyController extends Controller
     }
 
     public function edit(Survey $survey) {
-        return view('survey.edit', compact('survey'));
+        $surveyItems = SurveyItem::all();
+        $surveyDetails = SurveyDetail::where('survey_id', $survey->id)->get();
+        $selectedItems = [];
+        foreach ($surveyDetails as $surveyDetail) {
+            $selectedItems[] = [
+                'id' => $surveyDetail->survey_item_id,
+                'order' => $surveyDetail->order,
+            ];
+        }
+
+        return view('survey.edit', compact('survey', 'surveyItems', 'selectedItems'));
     }
 
     public function update(Request $request, Survey $survey) {
 
+        $items = $request->input('items', []);
+        // insert
         $survey->update($request->all());
-        // // $request->session()->flash('message', '更新しました');
+        // 現在のSurveyDetailsを削除して、新しいデータで上書き
+        SurveyDetail::where('survey_id', $survey->id)->delete();
+        // itemのidを取得し配列に格納
+        foreach ($items as $item) {
+            $itemId = $item['id'];
+            $order = $item['order'];
+            $surveyItem = SurveyItem::find($itemId);
+            SurveyDetail::create([
+                'survey_id' => $survey->id,
+                'survey_item_id' => $surveyItem->id,
+                'order' => $order,
+                'content' => $surveyItem->content,
+                'type' => $surveyItem->type,
+                'choices' => $surveyItem->choices,
+            ]);
+        }
         return redirect()->route('survey.index');
     }
 

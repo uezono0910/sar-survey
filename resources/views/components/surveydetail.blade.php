@@ -1,21 +1,23 @@
-<!-- resources/views/components/surveydetail.blade.php -->
 <div id="myModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <div class="w-full bg-white rounded-lg overflow-hidden shadow-xl transform transition-all m-8 sm:mx-40">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all m-8 sm:mx-40">
             <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">アンケート項目選択</h3>
-                        <div class="mt-2">
+                        <div class="mt-4">
                             <form id="surveyForm">
                                 @foreach ($surveyItems as $surveyItem)
-                                    <div class="mb-2 flex items-center">
+                                    <div class="mb-2 flex justify-between items-center">
                                         <label class="inline-flex items-center mr-2">
-                                            <input type="checkbox" class="form-checkbox" name="surveyItems[]" value="{{ $surveyItem->id }}">
+                                            <input type="checkbox" class="form-checkbox" name="surveyItems[]" value="{{ $surveyItem->id }}" data-content="{{ $surveyItem->content }}">
                                             <span class="ml-2">{{ $surveyItem->content }}</span>
                                         </label>
-                                        <input type="number" name="order[{{ $surveyItem->id }}]" class="form-input w-16 ml-2" min="1" placeholder="順番" value="{{ $loop->index + 1 }}"><span class="ml-2 text-xs">※表示順</span>
+                                        <div>
+                                            <input type="number" name="order[{{ $surveyItem->id }}]" class="form-input w-20 ml-2 text-base" min="1" placeholder="順番">
+                                            <span class="ml-2 text-xs">※表示順</span>
+                                        </div>
                                     </div>
                                 @endforeach
                             </form>
