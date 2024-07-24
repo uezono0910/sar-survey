@@ -20,7 +20,7 @@
             <tr>
               <td class="whitespace-nowrap p-2 text-left">{{ $surveyAnswer->created_at }}</td>
               @foreach($surveyItems as $surveyItem)
-              <td>
+              <td class="whitespace-nowrap p-2 text-left">
                 @foreach ($surveyAnswerDetails as $surveyAnswerDetail)
                   @if ($surveyAnswer->id == $surveyAnswerDetail->survey_answer_id && $surveyItem->id == $surveyAnswerDetail->survey_item_id)
                     {{ $surveyAnswerDetail->answer }}

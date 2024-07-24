@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            アンケートフォーム登録
+            アンケート登録
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto sm:px-40 py-12">
