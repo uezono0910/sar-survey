@@ -20,15 +20,15 @@ class SurveyItemController extends Controller
         return view('surveyitem.index', compact('surveyItems'));
     }
 
-    public function show (SurveyItem $surveyItem) {
-        return view('surveyitem.show', compact('surveyItem'));
+    public function show (SurveyItem $surveyitem) {
+        return view('surveyitem.show', compact('surveyitem'));
     }
 
     public function create() {
         return view('surveyitem.create');
     }
 
-    public function store(Request $request, SurveyItem $surveyItem) {
+    public function store(Request $request, SurveyItem $surveyitem) {
 
         // Modelをインスタンス化
         $surveyItemModel = new SurveyItem();
@@ -45,9 +45,8 @@ class SurveyItemController extends Controller
         return view('surveyitem.edit', compact('surveyitem'));
     }
 
-    public function update(Request $request, SurveyItem $surveyItem) {
-
-        $surveyItem->update($request->all());
+    public function update(Request $request, SurveyItem $surveyitem) {
+        $surveyitem->update($request->all());
         // // $request->session()->flash('message', '更新しました');
         return redirect()->route('surveyitem.index');
     }
