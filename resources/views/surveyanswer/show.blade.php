@@ -1,67 +1,48 @@
 <x-app-layout>
   <x-slot name="header">
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        回答詳細
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight overflow-x-scroll">
+        {{ $surveys->title }}の回答（{{ $surveys->date }}）
       </h2>
   </x-slot>
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="bg-white w-full rounded-2xl">
-      <div class="mt-4 p-4">
-        <h1 class="text-lg font-semibold">
-          {{Auth::user()->id}}
-        </h1>
-        <form method="POST" action="{{ route('surveyanswer.store') }}">
-          @csrf
-          @foreach($surveys as $survey)
-          <div class="mt-8">
-            <div class="w-full flex flex-col">
-              <label for="body" class="font-somibold mt-4">{{ $survey->content }}</label>
-              <!-- <x-input-error :messages="$errors->get('body')" class="mt-2" /> -->
-              <!-- <input type="text" name="survey_{{ $survey->id }}" /> -->
-            </div>
-          </div>
+  <div class="mx-12 py-12">
+    <div class="overflow-scroll w-full">
+      <table class="w-full">
+        <thead class="bg-blue-100">
+          <tr>
+          <th class="whitespace-nowrap p-2 text-left">投稿日</th>
+          @foreach($surveyItems as $surveyItem)
+            <th class="min-w-64 p-2 text-left">{{ $surveyItem->content }}</th>
           @endforeach
-        </form>
-        <!-- <div>
-
-            <x-primary-button>
-              編集
-            </x-primary-button>
-          </a>
-            @csrf
-            @method('delete')
-            <x-primary-button>
-              削除
-            </x-primary-button>
-          </form>
-        </div> -->
-        <hr>
-        <p class="mt-4 whitespace-pre-line">
-          {{$surveyanswer->answer}}
-        </p>
-        <div class="text-sm font-semibold flex flex-row-reverse">
-          <p>
-            {{$surveyanswer->created_at}}
-          </p>
-        </div>
-      </div>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          @foreach ($surveyAnswers as $surveyAnswer)
+            <tr>
+              <td class="whitespace-wrap p-2 text-left">{{ $surveyAnswer->created_at }}</td>
+              @foreach($surveyItems as $surveyItem)
+              <td>
+                @foreach ($surveyAnswerDetails as $surveyAnswerDetail)
+                  @if ($surveyAnswer->id == $surveyAnswerDetail->survey_answer_id && $surveyItem->id == $surveyAnswerDetail->survey_item_id)
+                    {{ $surveyAnswerDetail->answer }}
+                  @endif
+                @endforeach
+              </td>
+              @endforeach
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
-
-    <!-- {{-- @foreach ($surveyanswers as $surveyanswer)
-      <div class="mt-4 p-8 bg-white w-full rounded-2xl">
-        <h1 class="p-4 text-lg font-semibold">
-          {{ $surveyanswer->title}}
-        </h1>
-        <hr class="w-full">
-        <p class="mt-4 p-4">
-          {{ $surveyanswer->body }}
-        </p>
-        <div class="mt-4 p-8 bg-white w-full rounded-2xl">
-          <p>
-            {{ $surveyanswer->created_at }} / {{ $surveyanswer->user->name??'匿名' }}
-          </p>
-        </div>
-      </div>
-    @endforeach --}} -->
   </div>
 </x-app-layout>
+
+<style>
+th, td {
+  border: solid .5px #d3d3d3;
+  padding: .5rem;
+  max-width: 300px;
+}
+th {
+  white-space: wrap;
+}
+</style>

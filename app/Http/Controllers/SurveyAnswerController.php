@@ -32,7 +32,16 @@ class SurveyAnswerController extends Controller
     }
 
     public function show (SurveyAnswer $surveyAnswer) {
-        return view('surveyanswer.show', compact('surveyAnswers', 'survey'));
+        $surveys = Survey::where('id', $surveyAnswer->id)->first();
+        $surveyItems = SurveyItem::all();
+        $surveyAnswers = SurveyAnswer::where('survey_id', $surveyAnswer->id)->get();
+        $surveyAnswerDetails = SurveyAnswerDetail::query()
+            ->join('survey_details', 'survey_answer_details.survey_detail_id', '=', 'survey_details.id')
+            ->get();
+
+        Gate::authorize('auth');
+        // アンケート一覧にデータを渡して画面表示
+        return view('surveyanswer.show', compact('surveys', 'surveyItems', 'surveyAnswers', 'surveyAnswerDetails'));
     }
 
     public function create(Survey $survey) {
