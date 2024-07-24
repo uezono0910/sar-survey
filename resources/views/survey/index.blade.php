@@ -26,8 +26,8 @@
             <tr>
               <td>{{ $survey->date }}</td>
               <td class="min-w-40">{{ $survey->title }}</td>
-              <td>{{ $surveyDetailCounts[$survey->id] }}</td>
-              <td>{{ $surveyAnswersCount }}</td>
+              <td>{{ $surveyDetailsCount[$survey->id] }}</td>
+              <td>{{ $surveyAnswersCount[$survey->id] }}</td>
               <td><a class="text-blue-500 hover:text-blue-700" href="{{ $survey->url }}" target=”_blank”>{{ $survey->url }}</a></td>
               <td class="min-w-80">{{ $survey->note }}</td>
               <td class="flex justify-center"><div class="text-center cursor-pointer p-0.5 hover:bg-gray-300 rounded border border-gray-400 ease-in duration-300 "><a href="{{ route('survey.show', $survey->id) }}" target="_blank">プレビュー</a></div></td>

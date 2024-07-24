@@ -18,24 +18,25 @@ class SurveyController extends Controller
     public function index() {
         // surveyデータを取得して降順にソート
         $surveys = Survey::all()->sortByDesc('updated_at');
-        $surveyDetails = SurveyDetail::all();
-        $surveyAnswersCount = SurveyAnswer::count();
         // 各surveyのsurveyDetailをカウント
-        $surveyDetailCounts = [];
         foreach ($surveys as $survey) {
-            $surveyDetailCounts[$survey->id] = $surveyDetails->where('survey_id', $survey->id)->count();
+            $surveyDetailsCount[$survey->id] = SurveyDetail::where('survey_id', $survey->id)->count();
         }
-        // dd($surveyDetailCounts);
+        // 各surveyのsurveyAnswersをカウント
+        foreach ($surveys as $survey) {
+            $surveyAnswersCount[$survey->id] = SurveyAnswer::where('survey_id', $survey->id)->count();
+        }
         // 現在のURLを取得
         $currentUrl = url()->current();
-        return view('survey.index', compact('surveys', 'surveyDetails', 'surveyAnswersCount','surveyDetailCounts', 'currentUrl'));
+        return view('survey.index', compact('surveys', 'surveyAnswersCount','surveyDetailsCount', 'currentUrl'));
     }
 
     public function show (Survey $survey) {
-        // surveyデータを取得して降順にソート
-        $surveys = Survey::all()
-        ->where('date', '')
-        ->get();
+        $surveys = Survey::find($survey);
+        $surveyDetails = SurveyDetail::where('survey_id', $surve->id)->get();
+        // 現在のURLを取得
+        $currentUrl = url()->current();
+        return view('survey.index', compact('surveys', 'surveyDetails', 'surveyAnswersCount','surveyDetailCounts', 'currentUrl'));
     }
 
     public function create() {
