@@ -18,6 +18,11 @@ class SurveyController extends Controller
     public function index() {
         // surveyデータを取得して降順にソート
         $surveys = Survey::all()->sortByDesc('updated_at');
+
+        // 各カウント用の配列を初期化
+        $surveyDetailsCount = [];
+        $surveyAnswersCount = [];
+
         // 各surveyのsurveyDetailをカウント
         foreach ($surveys as $survey) {
             $surveyDetailsCount[$survey->id] = SurveyDetail::where('survey_id', $survey->id)->count();
