@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // ユーザーの権限を変換
+    public function getRoleAttribute($value)
+    {
+        return $value == 1 ? 'admin' : $value;
+    }
 }

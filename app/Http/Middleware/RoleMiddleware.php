@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
@@ -15,9 +18,9 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role == '1'){
+        if (Auth::check() && Auth::user() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-        return redirect()->route('surveyanswer.index');
+        return redirect()->route('login');
     }
 }

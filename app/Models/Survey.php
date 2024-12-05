@@ -8,11 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Survey extends Model
 {
     use HasFactory;
-    protected $table = 'survey';
+    protected $table = 'surveys';
     protected $fillable = [
-        'content',
-        'type',
-        'choices',
-        'order',
+        'date',
+        'title',
+        'note',
+        'url',
     ];
+
+    public function getStateAttribute($value)
+    {
+        return $value == 0 ? 'public' : 'private';
+    }
+
+    public function setStateAttribute($value)
+    {
+        $this->attributes['state'] = $value == 'public' ? '0' : '1';
+    }
 }

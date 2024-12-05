@@ -18,7 +18,7 @@
                             <button class="l-6 flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ __('メニュー') }}</div>
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <svg class="fill-current sm:h-4 sm:w-4 w-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
@@ -32,11 +32,14 @@
                             <x-dropdown-link :href="route('survey.create')">
                                 {{ __('アンケート登録') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('surveyitem.index')">
+                                {{ __('アンケート項目一覧') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('surveyitem.create')">
+                                {{ __('アンケート項目登録') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('surveyanswer.index')">
                                 {{ __('アンケート回答一覧') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('surveyanswer.create')">
-                                {{ __('アンケート回答') }}
                             </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
@@ -90,12 +93,7 @@
 
     <!-- Responsive Navigation Menu -->
     @can('auth')
-        <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('surveyanswer.index')" :active="request()->routeIs('surveyanswer.index')">
-                    {{ __('surveyanswer.index') }}
-                </x-responsive-nav-link>
-            </div>
+        <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden absolute bg-white right-0 shadow">
 
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">

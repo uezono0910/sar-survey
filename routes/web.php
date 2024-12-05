@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurveyAnswerController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveyItemController;
 use App\Models\SurveyAnswer;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -24,30 +25,24 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-    // return redirect()->route('surveyanswer/create');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware('admin')->group(function() {
     Route::resource('survey', SurveyController::class);
-    // Route::patch('survey/{survey}/update', [SurveyController::class, 'update'])->name('survey.update');
+    Route::resource('surveyitem', SurveyItemController::class);
+    Route::get('surveyanswer/{surveyAnswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
+    Route::get('surveyanswer/{surveyAnswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
+    Route::patch('surveyanswer/{surveyAnswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
+    Route::delete('surveyanswer/{surveyAnswer}', [SurveyAnswerController::class, 'destroy'])->name('surveyanswer.destroy');
     // ログインユーザーのみアンケート一覧画面を表示
     Route::get('surveyanswer', [SurveyAnswerController::class, 'index'])->name('surveyanswer.index');
-    Route::get('survey/{survey}/show', [SurveyController::class, 'show'])->name('survey.show');
 });
 
-Route::get('surveyanswer/{surveyanswer}/show', [SurveyAnswerController::class, 'show'])->name('surveyanswer.show');
-Route::get('surveyanswer/create', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
-Route::post('surveyanswer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
-Route::get('surveyanswer/{surveyanswer}/edit', [SurveyAnswerController::class, 'edit'])->name('surveyanswer.edit');
-Route::patch('surveyanswer/{surveyanswer}/update', [SurveyAnswerController::class, 'update'])->name('surveyanswer.update');
-Route::delete('surveyanswer/{surveyanswer}', [SurveyAnswerController::class, 'destroy'])->name('surveyanswer.destroy');
+Route::get('survey/{survey}/answer', [SurveyAnswerController::class, 'create'])->name('surveyanswer.create');
+Route::post('survey/{survey}/answer', [SurveyAnswerController::class, 'store'])->name('surveyanswer.store');
 
 require __DIR__.'/auth.php';

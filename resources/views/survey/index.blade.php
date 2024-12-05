@@ -9,9 +9,13 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-            <th class="whitespace-nowrap">質問内容</th>
-            <th class="whitespace-nowrap">フォームタイプ</th>
-            <th class="whitespace-nowrap">選択肢</th>
+            <th class="whitespace-nowrap">公開日</th>
+            <th class="whitespace-nowrap">タイトル</th>
+            <th class="whitespace-nowrap">項目数</th>
+            <th class="whitespace-nowrap">回答数</th>
+            <th class="whitespace-nowrap">URL</th>
+            <th class="whitespace-nowrap">備考</th>
+            <th class="whitespace-nowrap">回答詳細</th>
             <th class="whitespace-nowrap">編集</th>
             <th class="whitespace-nowrap">削除</th>
           </tr>
@@ -19,9 +23,13 @@
         <tbody class="bg-white">
           @foreach ($surveys as $survey)
             <tr>
-              <td class="min-w-80">{{ $survey->content }}</td>
-              <td class="min-w-40">{{ $survey->type }}</td>
-              <td class="min-w-80">{{ $survey->choices }}</td>
+              <td>{{ $survey->date }}</td>
+              <td class="min-w-40">{{ $survey->title }}</td>
+              <td>{{ $surveyDetailsCount[$survey->id] }}</td>
+              <td>{{ $surveyAnswersCount[$survey->id] }}</td>
+              <td><a class="text-blue-500 hover:text-blue-700" href="{{ $survey->url }}" target=”_blank”>{{ $survey->url }}</a></td>
+              <td class="min-w-80">{{ $survey->note }}</td>
+              <td><a class="m-auto" href="{{ route('surveyanswer.show', ['surveyAnswer'=>$survey->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAWklEQVR4nO2VwQkAIQwEpzz7LyFXyN5HQVA5JCrCZUAQIjuPkAjBBAl4ADmP5awGWxCuStJQil40yjkqUOeuj7e6SuBBVwgUPSB6wC/nwHav67RIYqMPJ6DHC6Jsv3ofzjEAAAAAAElFTkSuQmCC"></a></td>
               <td><a class="m-auto" href="{{ route('survey.edit', ['survey'=>$survey->id]) }}"><img class="m-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAr0lEQVR4nO2UQQrCMBBF5woiQt4v9B6u9B4exKUuewD1OHoKDyK4j0QbWopZdbrLh4HM5v2ZDxOzKjMDzpK6JeGxL38T4Dgy8DMJIewKW8TUz4IzALvCJicPeJxOm96zpmcCd82dMvxbTdPsF4PLM3NV+OKxJElaA7d/8NlXmhVC2LjDgYOkbe7btl3lTVwmBy6SXmMT/eLyiQV49HG8x7+lmyQ9gTtwTXH5kausrA8EoobA4svtJQAAAABJRU5ErkJggg=="></a></td>
               <td>
                 <form action="{{route('survey.destroy', $survey->id)}}" method="post" class="m-auto">
@@ -41,9 +49,11 @@
     </x-primary-button>
   </div> --}}
 </x-app-layout>
+
 <style>
 th, td {
   border: solid .5px #d3d3d3;
+  text-align: center;
   padding: .5rem;
   max-width: 300px;
 }

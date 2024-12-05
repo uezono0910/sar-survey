@@ -33,6 +33,9 @@ alias sail='./vendor/bin/sail'
 sail up -d
 ```
 
+### マイグレーションを実行
+sail artisan migrate:refresh
+
 ### dev スクリプトを実行
 sail npm run dev
 

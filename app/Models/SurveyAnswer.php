@@ -11,5 +11,11 @@ class SurveyAnswer extends Model
     protected $table = 'survey_answers';
     protected $fillable = [
         'id',
+        'survey_id',
     ];
+
+    public function survey_answer_details()
+	{
+		return $this->hasMany(SurveyAnswerDetail::class, 'survey_answer_id');
+	}
 }

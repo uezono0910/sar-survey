@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Survey;
+use App\Models\SurveyItem;
+use App\Models\SurveyDetail;
 use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -14,66 +16,121 @@ use App\Enum\ESurveyType;
 class SurveyController extends Controller
 {
     public function index() {
-        // Surveyデータを取得して降順にソート
-        $surveys = survey::orderBy('order', 'asc')->get();
-        // カラムtypeの数値を名前をつけて文字列に変換
-        foreach($surveys as $survey){
-            Log::debug($survey);
-            if ($survey['type'] == "1") {
-                $survey['type'] = "テキストボックス";
-                Log::debug($survey['type']);
-            } elseif($survey['type'] == "2") {
-                $survey['type'] = "テキストエリア";
-                Log::debug($survey['type']);
-            } elseif($survey['type'] == "3") {
-                $survey['type'] = "セレクトボックス";
-                Log::debug($survey['type']);
-            } elseif($survey['type'] == "4") {
-                $survey['type'] = "ラジオボタン";
-                Log::debug($survey['type']);
-            } elseif($survey['type'] == "5") {
-                $survey['type'] = "チェックボックス";
-                Log::debug($survey['type']);
-            }
-        }
+        // surveyデータを取得して降順にソート
+        $surveys = Survey::all()->sortByDesc('updated_at');
 
-        return view('survey.index', compact('surveys'));
+        // 各カウント用の配列を初期化
+        $surveyDetailsCount = [];
+        $surveyAnswersCount = [];
+
+        // 各surveyのsurveyDetailをカウント
+        foreach ($surveys as $survey) {
+            $surveyDetailsCount[$survey->id] = SurveyDetail::where('survey_id', $survey->id)->count();
+        }
+        // 各surveyのsurveyAnswersをカウント
+        foreach ($surveys as $survey) {
+            $surveyAnswersCount[$survey->id] = SurveyAnswer::where('survey_id', $survey->id)->count();
+        }
+        // 現在のURLを取得
+        $currentUrl = url()->current();
+        return view('survey.index', compact('surveys', 'surveyAnswersCount','surveyDetailsCount', 'currentUrl'));
     }
 
     public function show (Survey $survey) {
-        return view('survey.show', compact('survey'));
+        $surveys = Survey::find($survey);
+        $surveyDetails = SurveyDetail::where('survey_id', $surve->id)->get();
+        // 現在のURLを取得
+        $currentUrl = url()->current();
+        return view('survey.index', compact('surveys', 'surveyDetails', 'surveyAnswersCount','surveyDetailCounts', 'currentUrl'));
     }
 
     public function create() {
-        return view('survey.create');
+        $surveyItems = SurveyItem::all();
+        return view('survey.create', compact('surveyItems'));
     }
 
     public function store(Request $request, Survey $survey) {
-        // Modelをインスタンス化
-        $surveyModel = new Survey();
+        // $validatedData = $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'date' => 'required|date',
+        //     'items' => 'required|string',  // itemsはJSON形式で送信されるためstringとする
+        //     'note' => 'nullable|string',
+        // ]);
+        // アンケートフォームのURLを作成
+        // surveyテーブルの最後のidを取得
+        $lastRecordId = Survey::max('id') ?? 0;
+        $urlId = $lastRecordId + 1;
+        $surveyUrl = "survey/{$urlId}/answer";
 
         // insert
-        $surveyModel->fill($request->all())->save();
+        $survey = new Survey($request->all());
+        $survey->url = $surveyUrl;
+        $survey->save();
+
+        $items = $request->input('items', []);
+        // itemのidを取得し配列に格納
+        foreach ($items as $item) {
+            $itemId = $item['id'];
+            $order = $item['order'];
+            $surveyItem = SurveyItem::find($itemId);
+
+            // insert
+            SurveyDetail::create([
+                'survey_id' => $survey->id,
+                'survey_item_id' => $surveyItem->id,
+                'order' => $order,
+                'content' => $surveyItem->content,
+                'type' => $surveyItem->type,
+                'choices' => $surveyItem->choices,
+            ]);
+        }
 
         // 一覧画面にリダイレクト
-        return redirect()->route('survey.index');
-        // ->with('message', '保存しました');
+        return redirect()->route('survey.index')->with('message', '保存しました');
     }
 
     public function edit(Survey $survey) {
-        return view('survey.edit', compact('survey'));
+        $surveyItems = SurveyItem::all();
+        $surveyDetails = SurveyDetail::where('survey_id', $survey->id)->get();
+        $selectedItems = [];
+        foreach ($surveyDetails as $surveyDetail) {
+            $selectedItems[] = [
+                'id' => $surveyDetail->survey_item_id,
+                'order' => $surveyDetail->order,
+            ];
+        }
+
+        return view('survey.edit', compact('survey', 'surveyItems', 'selectedItems'));
     }
 
     public function update(Request $request, Survey $survey) {
 
+        $items = $request->input('items', []);
+        // insert
         $survey->update($request->all());
-        // // $request->session()->flash('message', '更新しました');
+        // 現在のSurveyDetailsを削除して、新しいデータで上書き
+        SurveyDetail::where('survey_id', $survey->id)->delete();
+        // itemのidを取得し配列に格納
+        foreach ($items as $item) {
+            $itemId = $item['id'];
+            $order = $item['order'];
+            $surveyItem = SurveyItem::find($itemId);
+            SurveyDetail::create([
+                'survey_id' => $survey->id,
+                'survey_item_id' => $surveyItem->id,
+                'order' => $order,
+                'content' => $surveyItem->content,
+                'type' => $surveyItem->type,
+                'choices' => $surveyItem->choices,
+            ]);
+        }
         return redirect()->route('survey.index');
     }
 
     public function destroy(Request $request, Survey $survey) {
         $survey->delete();
         // $request->session()->flash('message', '削除しました');
+
         return redirect()->route('survey.index');
     }
 }

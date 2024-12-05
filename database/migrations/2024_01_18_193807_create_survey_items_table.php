@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('survey_answer_details', function (Blueprint $table) {
+        Schema::create('survey_items', function (Blueprint $table) {
             $table->id();
-            $table->text('answer')->nullable();
-            $table->integer('survey_detail_id');
-            $table->integer('survey_answer_id');
+            $table->text('content');
+            $table->integer('type');
+            $table->text('choices')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('survey_answer_details');
+        Schema::dropIfExists('survey_items');
     }
 };

@@ -10,7 +10,7 @@ switch ($align) {
         break;
     case 'right':
     default:
-        $alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0';
+        $alignmentClasses = 'ltr:origin-top-right rtl:origin-top-left end-0 left-0';
         break;
 }
 
@@ -21,7 +21,7 @@ switch ($width) {
 }
 @endphp
 
-<div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+<div class="relative left-0" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
     <div @click="open = ! open">
         {{ $trigger }}
     </div>
