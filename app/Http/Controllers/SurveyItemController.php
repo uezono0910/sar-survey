@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Models\SurveyItem;
+use App\Models\surveyItem;
 use App\Models\SurveyAnswer;
 use GuzzleHttp\Psr7\Message;
 use Symfony\Contracts\Service\Attribute\Required;
