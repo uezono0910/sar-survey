@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight overflow-x-scroll">
-        {{ $surveys->title }}の回答（{{ $surveys->date }}）
+        {{ $surveyItems->date }}のアンケート
       </h2>
   </x-slot>
   <div class="mx-12 py-12">
@@ -9,24 +9,22 @@
       <table class="w-full">
         <thead class="bg-blue-100">
           <tr>
-          <th class="whitespace-nowrap p-2 text-left">投稿日</th>
           @foreach($surveyItems as $surveyItem)
             <th class="min-w-64 p-2 text-left">{{ $surveyItem->content }}</th>
           @endforeach
           </tr>
         </thead>
         <tbody class="bg-white">
-          @foreach ($surveyAnswers as $surveyAnswer)
+          @foreach ($surveyanswers as $surveyanswer)
             <tr>
-              <td class="whitespace-wrap p-2 text-left">{{ $surveyAnswer->created_at }}</td>
-              @foreach($surveyItems as $surveyItem)
-              <td>
-                @foreach ($surveyAnswerDetails as $surveyAnswerDetail)
-                  @if ($surveyAnswer->id == $surveyAnswerDetail->survey_answer_id && $surveyItem->id == $surveyAnswerDetail->survey_item_id)
-                    {{ $surveyAnswerDetail->answer }}
+              @foreach($surveyItem as $surveyItem)
+                <td>
+                @foreach ($surveyanswerdetails as $surveyanswerdetail)
+                  @if ($surveyanswer->id === $surveyanswerdetail->survey_answer_id && $survey->id === $surveyanswerdetail->survey_id)
+                    {{ $surveyanswerdetail->answer }}
                   @endif
                 @endforeach
-              </td>
+                </td>
               @endforeach
             </tr>
           @endforeach
@@ -35,14 +33,8 @@
     </div>
   </div>
 </x-app-layout>
-
 <style>
 th, td {
   border: solid .5px #d3d3d3;
-  padding: .5rem;
-  max-width: 300px;
-}
-th {
-  white-space: wrap;
 }
 </style>
